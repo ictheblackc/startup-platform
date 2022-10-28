@@ -1,11 +1,12 @@
-from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
-import uuid
-from datetime import datetime
+from django.db import models
 
 
 class ProfileManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, bio, phone, avatar, gender, date_of_birth, website, country_id, city_id, citizenship,
+                    tin, address, university, speciality, ending_year, employment_id, skills, work_experience,
+                    achievements, hackathons, role, is_active, is_admin, has_team, has_project, has_company, has_patent,
+                    password=None):
         """
         Creates and saves a User
         """
@@ -15,49 +16,34 @@ class ProfileManager(BaseUserManager):
         email = self.normalize_email(email)
         email = email.lower()
 
-        user = self.model(
-            email=email,
-            phone=phone,
-            bio=bio,
-            avatar=avatar,
-            gender=gender,
-            date_of_birth=date_of_birth,
-            website=website,
-            country_id=country_id,
-            city_id=city_id,
-            citizenship=citizenship,
-            tin=tin,
-            address=address,
-            university=university,
-            speciality=speciality,
-            ending_year=ending_year,
-            employment_id=employment_id,
-            skills=skills,
-            work_experience=work_experience,
-            achievements=achievements,
-            hackathons=hackathons,
-            role=role,
-            is_active=is_active,
-            is_admin=is_admin,
-            has_team=has_team,
-            has_project=has_project,
-            has_company=has_company,
-            has_patent=has_patent,
-        )
+        user = self.model(email=email, phone=phone, bio=bio, avatar=avatar, gender=gender, date_of_birth=date_of_birth,
+                          website=website, country_id=country_id, city_id=city_id, citizenship=citizenship, tin=tin,
+                          address=address, university=university, speciality=speciality, ending_year=ending_year,
+                          employment_id=employment_id, skills=skills, work_experience=work_experience,
+                          achievements=achievements, hackathons=hackathons, role=role, is_active=is_active,
+                          is_admin=is_admin, has_team=has_team, has_project=has_project, has_company=has_company,
+                          has_patent=has_patent)
 
         user.set_password(password)
         user.save(using=self._db)
 
         return user
 
-    def create_superuser(self, email, password=None):
+    def create_superuser(self, email, bio, phone, avatar, gender, date_of_birth, website, country_id, city_id,
+                         citizenship, tin, address, university, speciality, ending_year, employment_id, skills,
+                         work_experience, achievements, hackathons, role, is_active, is_admin, has_team, has_project,
+                         has_company, has_patent, password=None):
         """
         Creates and saves a superuser
         """
-        user = self.create_user(
-            email,
-            password=password,
-        )
+        user = self.create_user(email=email, password=password, phone=phone, bio=bio, avatar=avatar, gender=gender,
+                                date_of_birth=date_of_birth, website=website, country_id=country_id, city_id=city_id,
+                                citizenship=citizenship, tin=tin, address=address, university=university,
+                                speciality=speciality, ending_year=ending_year, employment_id=employment_id,
+                                skills=skills, work_experience=work_experience, achievements=achievements,
+                                hackathons=hackathons, role=role, is_active=is_active, is_admin=is_admin,
+                                has_team=has_team, has_project=has_project, has_company=has_company,
+                                has_patent=has_patent)
 
         user.is_admin = True
         user.is_superuser = True
@@ -68,7 +54,9 @@ class ProfileManager(BaseUserManager):
 
 class Profile(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
-    phone = models.CharField(max_length=255, blank=True)
+    username = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
+    phone = models.CharField(max_length=255)
     bio = models.TextField(blank=True)
     avatar = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
     gender = models.IntegerField(default=None)
@@ -97,47 +85,15 @@ class Profile(AbstractBaseUser, PermissionsMixin):
 
     objects = ProfileManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email', 'name', 'phone', 'date_of_birth', 'citizenship', 'has_team', 'role', 'has_company',
+                       'has_patent']
 
     def __str__(self):
-        return self.email
+        return self.username
+
 
 '''
-# Create your models here.
-class Profile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    id_user = models.IntegerField(default=None)
-    bio = models.TextField(blank=True)
-    avatar = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
-    gender = models.IntegerField(default=None)
-    birthday = models.DateField(auto_now=True)
-    phone = models.CharField(max_length=32, blank=True)
-    website = models.CharField(max_length=128, blank=True)
-    country_id = models.IntegerField(default=None)
-    city_id = models.IntegerField(default=None)
-    citizenship = models.CharField(max_length=32, blank=True)
-    tin = models.IntegerField(default=None)
-    address = models.CharField(max_length=256, blank=True)
-    university = models.CharField(max_length=128, blank=True)
-    speciality = models.CharField(max_length=64, blank=True)
-    ending_year = models.DateField(auto_now=True)
-    employment_id = models.IntegerField(default=None)
-    skills = models.TextField(blank=True)
-    work_experience = models.IntegerField(default=None)
-    achievements = models.TextField(blank=True)
-    hackathons = models.IntegerField(default=None)
-    is_active = models.BooleanField(default=True)
-    role = models.CharField(max_length=128, blank=True)
-    has_team = models.BooleanField(default=False)
-    has_project = models.BooleanField(default=False)
-    has_company = models.BooleanField(default=False)
-    has_patent = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.user.username
-
-
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.CharField(max_length=100)
