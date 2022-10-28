@@ -1,10 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
-# from django.contrib.authentication import get_user_model
 import uuid
 from datetime import datetime
-
-# User = get_user_model()
 
 
 class ProfileManager(BaseUserManager):
@@ -20,6 +17,32 @@ class ProfileManager(BaseUserManager):
 
         user = self.model(
             email=email,
+            phone=phone,
+            bio=bio,
+            avatar=avatar,
+            gender=gender,
+            date_of_birth=date_of_birth,
+            website=website,
+            country_id=country_id,
+            city_id=city_id,
+            citizenship=citizenship,
+            tin=tin,
+            address=address,
+            university=university,
+            speciality=speciality,
+            ending_year=ending_year,
+            employment_id=employment_id,
+            skills=skills,
+            work_experience=work_experience,
+            achievements=achievements,
+            hackathons=hackathons,
+            role=role,
+            is_active=is_active,
+            is_admin=is_admin,
+            has_team=has_team,
+            has_project=has_project,
+            has_company=has_company,
+            has_patent=has_patent,
         )
 
         user.set_password(password)
@@ -44,9 +67,33 @@ class ProfileManager(BaseUserManager):
 
 
 class Profile(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True, max_length=255)
+    email = models.EmailField(max_length=255, unique=True)
+    phone = models.CharField(max_length=255, blank=True)
+    bio = models.TextField(blank=True)
+    avatar = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
+    gender = models.IntegerField(default=None)
+    date_of_birth = models.DateField(auto_now=True)
+    website = models.CharField(max_length=255, blank=True)
+    country_id = models.IntegerField(default=None)
+    city_id = models.IntegerField(default=None)
+    citizenship = models.CharField(max_length=255, blank=True)
+    tin = models.IntegerField(default=None)
+    address = models.CharField(max_length=255, blank=True)
+    university = models.CharField(max_length=255, blank=True)
+    speciality = models.CharField(max_length=255, blank=True)
+    ending_year = models.DateField(auto_now=True)
+    employment_id = models.IntegerField(default=None)
+    skills = models.TextField(blank=True)
+    work_experience = models.IntegerField(default=None)
+    achievements = models.TextField(blank=True)
+    hackathons = models.IntegerField(default=None)
+    role = models.CharField(max_length=255, blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    has_team = models.BooleanField(default=False)
+    has_project = models.BooleanField(default=False)
+    has_company = models.BooleanField(default=False)
+    has_patent = models.BooleanField(default=False)
 
     objects = ProfileManager()
 
