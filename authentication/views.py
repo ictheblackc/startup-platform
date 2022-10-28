@@ -1,12 +1,18 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User, auth
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from .models import Profile, Post, LikePost, FollowersCount
+# from django.contrib.authentication.models import User, authentication
+# from django.contrib import messages
+# from django.contrib.authentication.decorators import login_required
+# from .models import Profile, Post, LikePost, FollowersCount
 from itertools import chain
 import random
 from django.views.decorators.csrf import csrf_exempt
 
+
+@csrf_exempt
+def index(request):
+    return render(request, 'index.html')
+
+'''
 
 @csrf_exempt
 @login_required(login_url='signin')
@@ -221,8 +227,8 @@ def signup(request):
                 user.save()
 
                 # log user in and redirect to settings page
-                user_login = auth.authenticate(username=username, password=password)
-                auth.login(request, user_login)
+                user_login = authentication.authenticate(username=username, password=password)
+                authentication.login(request, user_login)
 
                 # create a Profile object for the new user
                 user_model = User.objects.get(username=username)
@@ -243,10 +249,10 @@ def signin(request):
         username = request.POST['username']
         password = request.POST['password']
 
-        user = auth.authenticate(username=username, password=password)
+        user = authentication.authenticate(username=username, password=password)
 
         if user is not None:
-            auth.login(request, user)
+            authentication.login(request, user)
             return redirect('/')
         else:
             messages.info(request, 'Credentials Invalid')
@@ -259,9 +265,10 @@ def signin(request):
 @csrf_exempt
 @login_required(login_url='signin')
 def logout(request):
-    auth.logout(request)
+    authentication.logout(request)
     return redirect('signin')
 
 
 
 
+'''

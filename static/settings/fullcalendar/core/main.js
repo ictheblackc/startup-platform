@@ -1078,7 +1078,7 @@ Docs & License: https://fullcalendar.io/
         }
         return refined;
     }
-    /* Date stuff that doesn't belong in datelib core
+    /* Date stuff that doesn't belong in datelib authentication
     ----------------------------------------------------------------------------------------------------------------------*/
     // given a timed range, computes an all-day range that has the same exact duration,
     // but whose start time is aligned with the start of the day.
@@ -6448,7 +6448,7 @@ Docs & License: https://fullcalendar.io/
     }(Interaction));
 
     /*
-    Triggers events and adds/removes core classNames when the user's pointer
+    Triggers events and adds/removes authentication classNames when the user's pointer
     enters/leaves event-elements of a component.
     */
     var EventHovering = /** @class */ (function (_super) {

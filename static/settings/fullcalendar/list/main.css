@@ -11,7 +11,7 @@
 /* view wrapper */
 .fc-rtl .fc-list-view {
   direction: rtl;
-  /* unlike core views, leverage browser RTL */
+  /* unlike authentication views, leverage browser RTL */
 }
 
 .fc-list-view {

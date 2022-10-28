@@ -2083,7 +2083,7 @@
       funcProto = Function.prototype,
       objectProto$2 = Object.prototype;
 
-  /** Used to detect overreaching core-js shims. */
+  /** Used to detect overreaching authentication-js shims. */
   var coreJsData = root$2['__core-js_shared__'];
 
   /** Used to detect methods masquerading as native. */

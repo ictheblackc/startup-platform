@@ -8166,7 +8166,7 @@
 
     function core (UIkit) {
 
-        // core components
+        // authentication components
         UIkit.component('accordion', Accordion);
         UIkit.component('alert', Alert);
         UIkit.component('cover', Cover);
@@ -8210,7 +8210,7 @@
         UIkit.component('spinner', Spinner);
         UIkit.component('totop', IconComponent);
 
-        // core functionality
+        // authentication functionality
         UIkit.use(Core);
 
     }
