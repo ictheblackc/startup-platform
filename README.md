@@ -9,7 +9,7 @@ pip install -r requirements.txt
 
 Start project:
 ```console
-python manage.py makemigrations
+python manage.py makemigrations authentication
 python manage.py migrate
 python manage.py runserver
 ```
