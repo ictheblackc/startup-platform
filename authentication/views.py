@@ -1,11 +1,23 @@
+import random
+from itertools import chain
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Project
-from itertools import chain
-import random
 from django.views.decorators.csrf import csrf_exempt
+from django.views import generic
+
+from .models import Profile, Project
+
+# Create your views here.
+# in progress... don't touch
+# class IndexView(generic.IndexView):
+#     template_name = 'authentication/index.html'
+#     context_object_name = 'profile'
+#
+#     def get_profile(self):
+#         """Return """
+#         return Profile.objects
 
 
 @login_required(login_url='signin')
@@ -53,7 +65,6 @@ def upload(request):
         return redirect('/')
 
 '''
-
 @csrf_exempt
 @login_required(login_url='signin')
 def index(request):

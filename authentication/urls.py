@@ -5,6 +5,8 @@ from . import views
 appname = 'authentication'
 urlpatterns = [
     # ex: /
+    # in progress... don't touch
+    #path('', views.IndexView.as_view(), name='index'),
     path('', views.index, name='index'),
     # path('settings', views.settings, name='settings'),
     path('upload', views.upload, name='upload'),
