@@ -3,13 +3,10 @@ from django.db import models
 
 
 class ProfileManager(BaseUserManager):
-    def create_user(self, username, email, phone=123, gender=None, date_of_birth=None, website=None,
-                    country_id=None, city_id=None,
-                    citizenship=None,
-                    tin=None, address=None, university=None, speciality=None, ending_year=None, employment_id=None,
-                    skills=None, work_experience=None,
-                    achievements=None, hackathons=None, role=None, has_team=False, has_project=False, has_company=False,
-                    has_patent=False,
+    def create_user(self, username, email, phone=123, gender=None, date_of_birth=None, website=None, country_id=None,
+                    city_id=None, citizenship=None, tin=None, address=None, university=None, speciality=None,
+                    ending_year=None, employment_id=None, skills=None, work_experience=None, achievements=None,
+                    hackathons=None, role=None, has_team=False, has_project=False, has_company=False, has_patent=False,
                     password=None, bio=None):
         """
         Creates and saves a User
@@ -20,11 +17,11 @@ class ProfileManager(BaseUserManager):
         email = self.normalize_email(email)
         email = email.lower()
 
-        user = self.model(username=username, email=email, phone=phone, bio=bio, gender=gender,
-                          date_of_birth=date_of_birth, website=website, country_id=country_id, city_id=city_id,
-                          citizenship=citizenship, tin=tin, address=address, university=university,
-                          speciality=speciality, ending_year=ending_year, employment_id=employment_id, skills=skills,
-                          achievements=achievements, hackathons=hackathons, role=role, has_team=has_team, has_project=has_project, has_company=has_company,
+        user = self.model(username=username, email=email, phone=phone, bio=bio, gender=gender, date_of_birth=date_of_birth,
+                          website=website, country_id=country_id, city_id=city_id, citizenship=citizenship, tin=tin,
+                          address=address, university=university, speciality=speciality, ending_year=ending_year,
+                          employment_id=employment_id, skills=skills, achievements=achievements, hackathons=hackathons,
+                          role=role, has_team=has_team, has_project=has_project, has_company=has_company,
                           has_patent=has_patent, work_experience=work_experience)
 
         user.set_password(password)
@@ -34,8 +31,8 @@ class ProfileManager(BaseUserManager):
 
     def create_superuser(self, username, email, bio, phone, gender, date_of_birth, website, country_id, city_id,
                          citizenship, tin, address, university, speciality, ending_year, employment_id, skills,
-                         work_experience, achievements, hackathons, role, has_team, has_project,
-                         has_company, has_patent, password=None):
+                         work_experience, achievements, hackathons, role, has_team, has_project, has_company,
+                         has_patent, password=None):
         """
         Creates and saves a superuser
         """
@@ -44,9 +41,8 @@ class ProfileManager(BaseUserManager):
                                 citizenship=citizenship, tin=tin, address=address, university=university,
                                 speciality=speciality, ending_year=ending_year, employment_id=employment_id,
                                 skills=skills, work_experience=work_experience, achievements=achievements,
-                                hackathons=hackathons, role=role,
-                                has_team=has_team, has_project=has_project, has_company=has_company,
-                                has_patent=has_patent, gender=gender)
+                                hackathons=hackathons, role=role, has_team=has_team, has_project=has_project,
+                                has_company=has_company, has_patent=has_patent, gender=gender)
 
         user.is_admin = True
         user.is_superuser = True

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link href="{% static 'images/favicon.png' %}" rel="icon" type="image/png">
-    <title>Sign In - Social Book</title>
+    <title>Sign Up - Social Book</title>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
@@ -21,11 +21,11 @@
     <div class="bg-white py-4 shadow dark:bg-gray-800">
         <div class="max-w-6xl mx-auto">
             <div class="flex items-center lg:justify-between justify-around">
-                <a href="/">
-                    <b><h1 style="font-size: 1.5rem;">Social Book</h1></b>
+                <a href="/static">
+                    <b><h1 style="font-size: 1.5rem;">Startup Platform</h1></b>
                 </a>
                 <div class="capitalize flex font-semibold hidden lg:block my-2 space-x-3 text-center text-sm">
-                    <a class="bg-pink-500 pink-500 px-6 py-3 rounded-md shadow text-white" href="/signup">Register</a>
+                    <a class="bg-pink-500 pink-500 px-6 py-3 rounded-md shadow text-white" href="/signin">Войти</a>
                 </div>
             </div>
         </div>
@@ -33,8 +33,7 @@
 
     <div>
         <div class="lg:p-12 max-w-md max-w-xl lg:my-0 my-12 mx-auto p-6 space-y-">
-            <h1 class="lg:text-3xl text-xl font-semibold  mb-6"> Log in</h1>
-
+            <h1 class="lg:text-3xl text-xl font-semibold mb-6">Регистрация</h1>
             <div>
                 <style>
                     h5 {
@@ -46,20 +45,27 @@
                 {% endfor %}
             </div>
 
+
             <form action="" method="POST">
                 {% csrf_token %}
-                <input class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" name="username" placeholder="Username"
+                <input class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" name="username" placeholder="Имя пользователя"
                        style="border: 1px solid #d3d5d8 !important;"
                        type="text">
-                <input class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" name="password" placeholder="Password"
+                <input class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" name="email" placeholder="Email"
+                       style="border: 1px solid #d3d5d8 !important;"
+                       type="email">
+                <input class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" name="password" placeholder="Пароль"
+                       style="border: 1px solid #d3d5d8 !important;"
+                       type="password">
+                <input class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" name="password2" placeholder="Подтвердите пароль"
                        style="border: 1px solid #d3d5d8 !important;"
                        type="password">
                 <button class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full"
                         type="submit">
-                    Login
+                    Зарегистрироваться
                 </button>
                 <div class="text-center mt-5 space-x-2">
-                    <p class="text-base"> Not registered? <a class="" href="/signup"> Create a account </a></p>
+                    <p class="text-base">Уже есть аккаунт? <a href="/signin"> Войти</a></p>
                 </div>
             </form>
         </div>
@@ -67,15 +73,13 @@
     <div class="lg:mb-5 py-3 uk-link-reset">
         <div class="flex flex-col items-center justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
             <div class="flex space-x-2 text-gray-700 uppercase">
-                <a href="#"> About</a>
-                <a href="#"> Help</a>
-                <a href="#"> Terms</a>
-                <a href="#"> Privacy</a>
+                <a href="#"> О нас</a>
+                <a href="#"> Помощь</a>
+                <a href="#"> Политика конфиденциальности</a>
             </div>
-            <p class="capitalize"> © copyright 2020 by socol</p>
+            <p class="capitalize"> © Copyright 2022 by Startup Platform</p>
         </div>
     </div>
-
 </div>
 
 <!-- Scripts ================================================== -->

@@ -237,7 +237,7 @@ def signup(request):
             return redirect('signup')
 
     else:
-        return render(request, 'signup.html')
+        return render(request, 'authentication/signup.html')
 
 
 @csrf_exempt
@@ -256,7 +256,7 @@ def signin(request):
             return redirect('signin')
 
     else:
-        return render(request, 'signin.html')
+        return render(request, 'authentication/signin.html')
 
 
 @csrf_exempt
