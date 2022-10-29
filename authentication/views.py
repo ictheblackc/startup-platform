@@ -1,15 +1,18 @@
 from django.shortcuts import render, redirect
-# from django.contrib.authentication.models import User, authentication
-# from django.contrib import messages
-# from django.contrib.authentication.decorators import login_required
-# from .models import Profile, Post, LikePost, FollowersCount
+from django.contrib.auth.models import auth
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .models import Profile
 from itertools import chain
 import random
 from django.views.decorators.csrf import csrf_exempt
 
 
+@login_required(login_url='signin')
 @csrf_exempt
 def index(request):
+    profile = Profile.objects.get(username=request.user.username)
+    print(profile)
     return render(request, 'index.html')
 
 '''
@@ -206,6 +209,7 @@ def settings(request):
         return redirect('index')
     return render(request, 'setting.html', {'user_profile': user_profile})
 
+'''
 
 @csrf_exempt
 def signup(request):
@@ -216,25 +220,22 @@ def signup(request):
         password2 = request.POST['password2']
 
         if password == password2:
-            if User.objects.filter(email=email).exists():
+            if Profile.objects.filter(email=email).exists():
                 messages.info(request, 'Email Taken')
                 return redirect('signup')
-            elif User.objects.filter(username=username).exists():
+            elif Profile.objects.filter(username=username).exists():
                 messages.info(request, 'Username Taken')
                 return redirect('signup')
             else:
-                user = User.objects.create_user(username=username, email=email, password=password)
-                user.save()
+                # Create Profile
+                profile = Profile.objects.create_user(username=username, email=email, password=password)
+                profile.save()
 
-                # log user in and redirect to settings page
-                user_login = authentication.authenticate(username=username, password=password)
-                authentication.login(request, user_login)
+                # Login user in and redirect to index page
+                user_login = auth.authenticate(username=username, password=password)
+                auth.login(request, user_login)
 
-                # create a Profile object for the new user
-                user_model = User.objects.get(username=username)
-                new_profile = Profile.objects.create(user=user_model, id_user=user_model.id)
-                new_profile.save()
-                return redirect('settings')
+                return redirect('index')
         else:
             messages.info(request, 'Password Not Matching')
             return redirect('signup')
@@ -249,11 +250,11 @@ def signin(request):
         username = request.POST['username']
         password = request.POST['password']
 
-        user = authentication.authenticate(username=username, password=password)
+        user = auth.authenticate(username=username, password=password)
 
         if user is not None:
-            authentication.login(request, user)
-            return redirect('/')
+            auth.login(request, user)
+            return redirect('index')
         else:
             messages.info(request, 'Credentials Invalid')
             return redirect('signin')
@@ -265,10 +266,9 @@ def signin(request):
 @csrf_exempt
 @login_required(login_url='signin')
 def logout(request):
-    authentication.logout(request)
+    auth.logout(request)
     return redirect('signin')
 
 
 
 
-'''
