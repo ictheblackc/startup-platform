@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="description"/>
     <meta content="" name="keywords"/>
-    <title>Profile - {{user_profile.user.username}}</title>
+    <title>Profile - {{profile}}</title>
     <link href="{% static 'images/favicon.png' %}" rel="icon" type="image/png">
     <link href="{% static 'css/main.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
@@ -19,12 +19,13 @@
 <div class="theme-layout"></div>
 <section>
     <div class="feature-photo">
-        <figure><img alt="" src="{% static 'images/resources/timeline-1.jpg' %}"></figure>
+        <figure><img alt="" src="{{ profile.background_profile_photo.url }}"></figure>
         <form action="/follow" method="POST">
             {% csrf_token %}
             <div class="add-btn">
-                <span style="color: white; font-size: 27px; margin-right: 520px;"><b><u><a
-                        href="/">Home</a></u></b></span>
+                <span style="color: white; font-size: 27px; margin-right: 520px;">
+                    <b><u><a href="/">Home</a></u></b>
+                </span>
 
                 {% if user_post_length == 0 %}
                 <span style="color: white; font-size: 27px;"><b>No Post</b></span>
@@ -44,9 +45,9 @@
                 <span style="color: white; font-size: 27px;"><b>{{user_following}} following</b></span>
 
                 <input name="follower" type="hidden" value="{{user.username}}"/>
-                <input name="user" type="hidden" value="{{user_object.username}}"/>
+                <input name="user" type="hidden" value="{{profile}}"/>
 
-                {% if user_object.username == user.username %}
+                {% if profile == user.username %}
                 <a data-ripple="" href="/settings">Account Settings</a>
                 {% else %}
                 <a data-ripple="">
@@ -61,7 +62,7 @@
                 <div class="col-lg-2 col-sm-3">
                     <div class="user-avatar">
                         <figure>
-                            <img alt="" src="{{user_profile.profileimg.url}}" style="height: 250px; width: 100%;">
+                            <img alt="" src="{{profile.avatar.url}}" style="height: 250px; width: 100%;">
                         </figure>
                     </div>
                 </div>
@@ -70,7 +71,7 @@
                         <ul>
                             <li class="admin-name">
                                 <h5 style="color: black;white-space: nowrap; width: 110px; font-size: 27px;">
-                                    <b>@{{user_profile.user.username}}</b>
+                                    <b>@{{profile}}</b>
                                 </h5>
                             </li>
                         </ul>
@@ -82,7 +83,7 @@
 </section>
 <section>
     <div class="bio">
-        {{user_profile.bio}}
+        {{profile.bio}}
     </div>
 </section>
 <section>

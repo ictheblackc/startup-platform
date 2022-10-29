@@ -11,9 +11,27 @@ from django.views.decorators.csrf import csrf_exempt
 @login_required(login_url='signin')
 @csrf_exempt
 def index(request):
+    print("[=====================Index====================]")
     profile = Profile.objects.get(username=request.user.username)
-    print(profile)
-    return render(request, 'index.html')
+
+    # user suggestion starts
+    all_other_profiles = Profile.objects.exclude(username=profile)
+
+    context = {'profile': profile, 'suggested_profiles': all_other_profiles}
+    print("[=====================Index====================]")
+    return render(request, 'index.html', context)
+
+
+@csrf_exempt
+@login_required(login_url='signin')
+def profile(request, pk):
+    profile = Profile.objects.get(username=pk)
+
+    context = {
+        'profile': profile,
+    }
+    return render(request, 'profile.html', context)
+
 
 '''
 
@@ -129,38 +147,9 @@ def like_post(request):
         post.save()
         return redirect('/')
 
+'''
 
-@csrf_exempt
-@login_required(login_url='signin')
-def profile(request, pk):
-    user_object = User.objects.get(username=pk)
-    user_profile = Profile.objects.get(user=user_object)
-    user_posts = Post.objects.filter(user=pk)
-    user_post_length = len(user_posts)
-
-    follower = request.user.username
-    user = pk
-
-    if FollowersCount.objects.filter(follower=follower, user=user).first():
-        button_text = 'Unfollow'
-    else:
-        button_text = 'Follow'
-
-    user_followers = len(FollowersCount.objects.filter(user=pk))
-    user_following = len(FollowersCount.objects.filter(follower=pk))
-
-    context = {
-        'user_object': user_object,
-        'user_profile': user_profile,
-        'user_posts': user_posts,
-        'user_post_length': user_post_length,
-        'button_text': button_text,
-        'user_followers': user_followers,
-        'user_following': user_following,
-    }
-    return render(request, 'profile.html', context)
-
-
+'''
 @csrf_exempt
 @login_required(login_url='signin')
 def follow(request):
@@ -210,6 +199,7 @@ def settings(request):
     return render(request, 'setting.html', {'user_profile': user_profile})
 
 '''
+
 
 @csrf_exempt
 def signup(request):
@@ -268,7 +258,3 @@ def signin(request):
 def logout(request):
     auth.logout(request)
     return redirect('signin')
-
-
-
-

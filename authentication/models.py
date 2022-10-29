@@ -3,14 +3,14 @@ from django.db import models
 
 
 class ProfileManager(BaseUserManager):
-    def create_user(self, username, email, phone=123, avatar=None, gender=None, date_of_birth=None, website=None,
+    def create_user(self, username, email, phone=123, gender=None, date_of_birth=None, website=None,
                     country_id=None, city_id=None,
                     citizenship=None,
                     tin=None, address=None, university=None, speciality=None, ending_year=None, employment_id=None,
                     skills=None, work_experience=None,
                     achievements=None, hackathons=None, role=None, has_team=False, has_project=False, has_company=False,
                     has_patent=False,
-                    password=None, bio="qwerty"):
+                    password=None, bio=None):
         """
         Creates and saves a User
         """
@@ -20,7 +20,7 @@ class ProfileManager(BaseUserManager):
         email = self.normalize_email(email)
         email = email.lower()
 
-        user = self.model(username=username, email=email, phone=phone, bio=bio, avatar=avatar, gender=gender,
+        user = self.model(username=username, email=email, phone=phone, bio=bio, gender=gender,
                           date_of_birth=date_of_birth, website=website, country_id=country_id, city_id=city_id,
                           citizenship=citizenship, tin=tin, address=address, university=university,
                           speciality=speciality, ending_year=ending_year, employment_id=employment_id, skills=skills,
@@ -32,14 +32,14 @@ class ProfileManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, username, email, bio, phone, avatar, gender, date_of_birth, website, country_id, city_id,
+    def create_superuser(self, username, email, bio, phone, gender, date_of_birth, website, country_id, city_id,
                          citizenship, tin, address, university, speciality, ending_year, employment_id, skills,
                          work_experience, achievements, hackathons, role, has_team, has_project,
                          has_company, has_patent, password=None):
         """
         Creates and saves a superuser
         """
-        user = self.create_user(username=username, email=email, password=password, phone=phone, bio=bio, avatar=avatar,
+        user = self.create_user(username=username, email=email, password=password, phone=phone, bio=bio,
                                 date_of_birth=date_of_birth, website=website, country_id=country_id, city_id=city_id,
                                 citizenship=citizenship, tin=tin, address=address, university=university,
                                 speciality=speciality, ending_year=ending_year, employment_id=employment_id,
@@ -61,7 +61,8 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     bio = models.TextField(blank=True, null=True)
-    avatar = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
+    avatar = models.ImageField(upload_to='profile/avatars', default='blank-profile-avatar.png')
+    background_profile_photo = models.ImageField(upload_to='profile/backgrounds', default='blank-profile-background.jpg')
     gender = models.IntegerField(default=None, null=True)
     date_of_birth = models.DateField(auto_now=True)
     website = models.CharField(max_length=255, blank=True, null=True)
