@@ -35,35 +35,31 @@
             <!-- upload -->
             <a class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white"
                href="#">
-                Upload Pics
+                Create Project
             </a>
-            <!-- upload dropdown box -->
+
             <div class="header_dropdown"
                  uk-dropdown="pos: top-right;mode:click ; animation: uk-animation-slide-bottom-small">
-                <!-- notivication header -->
                 <div class="px-4 py-3 -mx-5 -mt-4 mb-5 border-b">
-                    <h4>Upload Pics</h4>
+                    <h4>Create Project</h4>
                 </div>
-                <!-- notification contents -->
                 <div class="flex justify-center flex-center text-center">
                     <div class="flex flex-col choose-upload text-center">
-                        <div class="bg-gray-100 border-2 border-dashed flex flex-col h-24 items-center justify-center relative w-full rounded-lg  ">
-                            <svg class="w-12" fill="currentColor" viewBox="0 0 20 20"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z"/>
-                                <path d="M9 13h2v5a1 1 0 11-2 0v-5z"/>
-                            </svg>
-                        </div>
+                        {#                        <div class="bg-gray-100 border-2 border-dashed flex flex-col h-24 items-center justify-center relative w-full rounded-lg  ">#}
+                        {#                            <svg class="w-12" fill="currentColor" viewBox="0 0 20 20"#}
+                        {#                                 xmlns="http://www.w3.org/2000/svg">#}
+                        {#                                <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z"/>#}
+                        {#                                <path d="M9 13h2v5a1 1 0 11-2 0v-5z"/>#}
+                        {#                            </svg>#}
+                        {#                        </div>#}
                         <form action="upload" enctype="multipart/form-data" method="POST">
                             {% csrf_token %}
-                            <p class="my-3 leading-6"> Upload pics
-                            </p>
                             <div>
-                                <input name="image_upload" type="file">
-                                <textarea class="button soft-warning small" name="caption"
-                                          placeholder="caption...">
-                                </textarea>
-                                <br>
+                                <input class="mb-3" name="name" type="text" placeholder="Name...">
+                                <textarea class="button soft-warning small mb-3" name="description"
+                                          placeholder="Description..."></textarea>
+                                <p class="my-3 leading-6"> Upload image</p>
+                                <input class="mb-3" name="image" type="file">
                                 <button class="button bg-blue-700" type="submit">Upload</button>
                             </div>
                         </form>
@@ -102,11 +98,11 @@
                 </div>
             </div>
             <a href="#">
-                <img alt="" class="header-avatar" src="{{profile.avatar.url}}">
+                <img alt="" class="header-avatar" src="{{ profile.avatar.url }}">
             </a>
             <div class="header_dropdown profile_dropdown border-t" uk-drop="mode: click;offset:9">
                 <ul>
-                    <li><a href="/profile/{{profile}}">Your Profile</a></li>
+                    <li><a href="/profile/{{ profile }}">Your Profile</a></li>
                     <li><a href="/settings"> Account setting </a></li>
                     <li><a href="/logout"> Log Out</a></li>
                 </ul>
@@ -118,72 +114,74 @@
     <div class="lg:flex justify-center lg:space-x-10 lg:space-y-0 space-y-5">
         <div class="space-y-5 flex-shrink-0 lg:w-7/12">
             {% for post in posts reversed %}
-            <div class="bg-white shadow rounded-md  -mx-2 lg:mx-0">
-                <div class="flex justify-between items-center px-4 py-3">
-                    <div class="flex flex-1 items-center space-x-4">
-                        <span class="block font-semibold "><a href="/profile/{{post.user}}">@{{post.user}}</a></span>
-                    </div>
-                    <div>
-                        <a href="#"> <i
-                                class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 "></i>
-                        </a>
-                        <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100  "
-                             uk-drop="mode: hover;pos: top-right">
-                            <ul class="space-y-1">
-                                <li>
-                                    <a class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md "
-                                       href="#">
-                                        <i class="uil-trash-alt mr-1"></i> Delete Post
-                                    </a>
-                                </li>
-                            </ul>
+                <div class="bg-white shadow rounded-md  -mx-2 lg:mx-0">
+                    <div class="flex justify-between items-center px-4 py-3">
+                        <div class="flex flex-1 items-center space-x-4">
+                            <span class="block font-semibold "><a
+                                    href="/profile/{{ post.user }}">@{{ post.user }}</a></span>
+                        </div>
+                        <div>
+                            <a href="#"> <i
+                                    class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 "></i>
+                            </a>
+                            <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100  "
+                                 uk-drop="mode: hover;pos: top-right">
+                                <ul class="space-y-1">
+                                    <li>
+                                        <a class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md "
+                                           href="#">
+                                            <i class="uil-trash-alt mr-1"></i> Delete Post
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div uk-lightbox>
-                    <a href="{{post.image.url}}">
-                        <img alt="" src="{{post.image.url}}">
-                    </a>
-                </div>
-
-                <div class="py-3 px-4 space-y-3">
-                    <div class="flex space-x-4 lg:font-bold">
-                        <a class="flex items-center space-x-2" href="/like-post?post_id={{post.id}}">
-                            <div class="p-2 rounded-full text-black">
-                                <svg class="" fill="currentColor" height="25"
-                                     viewBox="0 0 20 20" width="25" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/>
-                                </svg>
-                                {% if post.no_of_likes == 0 %}
-                                <p>No likes</p>
-                                {% elif post.no_of_likes == 1 %}
-                                <p>Liked by {{post.no_of_likes}} person</p>
-                                {% else %}
-                                <p>Liked by {{post.no_of_likes}} people</p>
-                                {% endif %}
-                            </div>
-
-                        </a>
-
-                        <a class="flex items-center space-x-2 flex-1 justify-end" download href="{{post.image.url}}">
-                            <svg aria-hidden="true"
-                                 height="25" preserveAspectRatio="xMidYMid meet" role="img" viewBox="0 0 16 16"
-                                 width="25" xmlns="http://www.w3.org/2000/svg">
-                                <g fill="currentColor">
-                                    <path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v6h-2a.5.5 0 0 0-.354.854l2.5 2.5a.5.5 0 0 0 .708 0l2.5-2.5A.5.5 0 0 0 10.5 7.5h-2v-6z"/>
-                                </g>
-                            </svg>
-
+                    <div uk-lightbox>
+                        <a href="{{ post.image.url }}">
+                            <img alt="" src="{{ post.image.url }}">
                         </a>
                     </div>
-                    <p>
-                        <a href="/profile/{{post.user}}"><strong>{{post.user}}</strong></a> {{post.caption}}
-                    </p>
+
+                    <div class="py-3 px-4 space-y-3">
+                        <div class="flex space-x-4 lg:font-bold">
+                            <a class="flex items-center space-x-2" href="/like-post?post_id={{ post.id }}">
+                                <div class="p-2 rounded-full text-black">
+                                    <svg class="" fill="currentColor" height="25"
+                                         viewBox="0 0 20 20" width="25" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/>
+                                    </svg>
+                                    {% if post.no_of_likes == 0 %}
+                                        <p>No likes</p>
+                                    {% elif post.no_of_likes == 1 %}
+                                        <p>Liked by {{ post.no_of_likes }} person</p>
+                                    {% else %}
+                                        <p>Liked by {{ post.no_of_likes }} people</p>
+                                    {% endif %}
+                                </div>
+
+                            </a>
+
+                            <a class="flex items-center space-x-2 flex-1 justify-end" download
+                               href="{{ post.image.url }}">
+                                <svg aria-hidden="true"
+                                     height="25" preserveAspectRatio="xMidYMid meet" role="img" viewBox="0 0 16 16"
+                                     width="25" xmlns="http://www.w3.org/2000/svg">
+                                    <g fill="currentColor">
+                                        <path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v6h-2a.5.5 0 0 0-.354.854l2.5 2.5a.5.5 0 0 0 .708 0l2.5-2.5A.5.5 0 0 0 10.5 7.5h-2v-6z"/>
+                                    </g>
+                                </svg>
+
+                            </a>
+                        </div>
+                        <p>
+                            <a href="/profile/{{ post.user }}"><strong>{{ post.user }}</strong></a> {{ post.caption }}
+                        </p>
+
+                    </div>
 
                 </div>
-
-            </div>
             {% endfor %}
         </div>
 
@@ -198,21 +196,22 @@
                 <div class="divide-gray-300 divide-gray-50 divide-opacity-50 divide-y px-4 ">
 
                     {% for suggested_profile in suggested_profiles %}
-                    <div class="flex items-center justify-between py-3">
-                        <div class="flex flex-1 items-center space-x-4">
-                            <a href="/profile/{{suggested_profile}}">
-                                <img class="bg-gray-200 rounded-full w-10 h-10" src="{{suggested_profile.avatar.url}}">
-                            </a>
-                            <div class="flex flex-col">
-                                <span class="block capitalize font-semibold"> {{suggested_profile}} </span>
-                                <span class="block capitalize text-sm"> {{suggested_profile.bio}} </span>
+                        <div class="flex items-center justify-between py-3">
+                            <div class="flex flex-1 items-center space-x-4">
+                                <a href="/profile/{{ suggested_profile }}">
+                                    <img class="bg-gray-200 rounded-full w-10 h-10"
+                                         src="{{ suggested_profile.avatar.url }}">
+                                </a>
+                                <div class="flex flex-col">
+                                    <span class="block capitalize font-semibold"> {{ suggested_profile }} </span>
+                                    <span class="block capitalize text-sm"> {{ suggested_profile.bio }} </span>
+                                </div>
                             </div>
-                        </div>
 
-                        <a class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 "
-                           href="/profile/{{suggested_profile}}">
-                            View User </a>
-                    </div>
+                            <a class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 "
+                               href="/profile/{{ suggested_profile }}">
+                                View User </a>
+                        </div>
                     {% endfor %}
                 </div>
             </div>

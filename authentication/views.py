@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Profile
+from .models import Profile, Project
 from itertools import chain
 import random
 from django.views.decorators.csrf import csrf_exempt
@@ -32,6 +32,25 @@ def profile(request, pk):
     }
     return render(request, 'profile.html', context)
 
+
+@csrf_exempt
+@login_required(login_url='signin')
+def upload(request):
+    if request.method == 'POST':
+        user = request.user
+        name = request.POST['name']
+        description = request.POST['description']
+        image = request.FILES.get('image')
+
+        if name:
+            new_post = Project.objects.create(user_id=user, name=name, description=description, image=image)
+            new_post.save()
+        else:
+            messages.info(request, 'Name Is Required')
+
+        return redirect('/')
+    else:
+        return redirect('/')
 
 '''
 
@@ -84,20 +103,7 @@ def index(request):
                                           'suggestions_username_profile_list': suggestions_username_profile_list[:4]})
 
 
-@csrf_exempt
-@login_required(login_url='signin')
-def upload(request):
-    if request.method == 'POST':
-        user = request.user.username
-        image = request.FILES.get('image_upload')
-        caption = request.POST['caption']
 
-        new_post = Post.objects.create(user=user, image=image, caption=caption)
-        new_post.save()
-
-        return redirect('/')
-    else:
-        return redirect('/')
 
 
 @csrf_exempt

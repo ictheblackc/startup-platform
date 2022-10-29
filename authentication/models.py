@@ -97,6 +97,21 @@ class Profile(AbstractBaseUser, PermissionsMixin):
         return self.username
 
 
+class Project(models.Model):
+    user_id = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    team = models.TextField(blank=True, null=True)
+    website = models.CharField(max_length=255)
+    revenue = models.IntegerField(default=None, null=True)
+    stage = models.IntegerField(default=None, null=True)
+    image = models.ImageField(upload_to='project', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
 '''
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
