@@ -16,6 +16,7 @@ urlpatterns = [
     # actions
     path('create-project', views.create_project, name='create_project'),
     path('create-post', views.create_post, name='create_post'),
+    path('like-post', views.like_post, name='like_post'),
 
     # authentication
     path('signup', views.signup, name='signup'),
@@ -26,4 +27,3 @@ urlpatterns = [
 # path('settings', views.settings, name='settings'),
 # path('follow', views.follow, name='follow'),
 # path('search', views.search, name='search'),
-# path('like-post', views.like_post, name='like-post'),

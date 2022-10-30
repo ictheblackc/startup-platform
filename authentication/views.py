@@ -4,7 +4,7 @@ from django.contrib.auth.models import auth
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Profile, Project, Post
+from .models import Profile, Project, Post, Like
 
 
 # Create your views here.
@@ -28,12 +28,37 @@ def index(request):
 
     all_posts = Post.objects.all()
 
+    # TODO: suggest profiles
+    suggested_profiles = all_other_profiles
+
+    # TODO: suggest posts
+    suggested_posts = all_posts
+
+    # Like
+    suggested_posts_and_likes = []
+    for suggested_post in suggested_posts:
+
+        project_likes = Like.objects.filter(post=suggested_post).values("profile")
+
+        amount_of_likes = 0
+        is_profile_like = False
+
+        if project_likes:
+            amount_of_likes = project_likes.count()
+            is_profile_like = project_likes.filter(profile=profile).exists()
+
+        suggested_posts_and_likes.append({
+            'post': suggested_post,
+            'amount_of_likes': amount_of_likes,
+            'is_profile_like': is_profile_like,
+        })
+
     my_projects = Project.objects.filter(profile=profile)
 
     context = {
         'profile': profile,
-        'suggested_profiles': all_other_profiles,
-        'suggested_posts': all_posts,
+        'suggested_profiles': suggested_profiles,
+        'suggested_posts_and_likes': suggested_posts_and_likes,
         'my_projects': my_projects,
     }
     print("[=====================Index====================]")
@@ -66,15 +91,16 @@ def project(request, projectname):
 @login_required(login_url='authentication:signin')
 def create_project(request):
     if request.method == 'POST':
-        user = request.user
+        profile = request.user
         projectname = request.POST['projectname']
         name = request.POST['name']
         description = request.POST['description']
         image = request.FILES.get('image')
 
         if projectname and Project.objects.filter(projectname=projectname).exists() is False:
-            new_post = Project.objects.create(profile=user, projectname=projectname, name=name, description=description, image=image)
-            new_post.save()
+            new_project = Project.objects.create(profile=profile, projectname=projectname, name=name,
+                                                 description=description, image=image)
+            new_project.save()
 
         # TODO: handle exception value
 
@@ -87,7 +113,7 @@ def create_project(request):
 @login_required(login_url='authentication:signin')
 def create_post(request):
     if request.method == 'POST':
-        user = request.user
+        profile = request.user
         projectname = request.POST['projectname']
         content = request.POST['content']
         image = request.FILES.get('image')
@@ -96,10 +122,32 @@ def create_post(request):
             selected_project = Project.objects.get(projectname=projectname)
 
             if selected_project:
-                new_post = Post.objects.create(profile=user, project=selected_project, content=content, image=image)
+                new_post = Post.objects.create(profile=profile, project=selected_project, content=content, image=image)
                 new_post.save()
 
         # TODO: handle exception value
+
+        return redirect('/')
+    else:
+        return redirect('/')
+
+
+@csrf_exempt
+@login_required(login_url='authentication:signin')
+def like_post(request):
+    if request.method == 'POST':
+        profile = request.user
+        post_id = request.POST['post_id']
+
+        if post_id:
+            selected_post = Post.objects.get(pk=post_id)
+            if selected_post:
+                like = Like.objects.filter(profile=profile, post_id=post_id)
+                if like.exists():
+                    like.delete()
+                else:
+                    new_like = Like.objects.create(profile=profile, post=selected_post)
+                    new_like.save()
 
         return redirect('/')
     else:
