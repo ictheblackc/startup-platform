@@ -17,7 +17,8 @@ class ProfileManager(BaseUserManager):
         email = self.normalize_email(email)
         email = email.lower()
 
-        user = self.model(username=username, email=email, phone=phone, bio=bio, gender=gender, date_of_birth=date_of_birth,
+        user = self.model(username=username, email=email, phone=phone, bio=bio, gender=gender,
+                          date_of_birth=date_of_birth,
                           website=website, country_id=country_id, city_id=city_id, citizenship=citizenship, tin=tin,
                           address=address, university=university, speciality=speciality, ending_year=ending_year,
                           employment_id=employment_id, skills=skills, achievements=achievements, hackathons=hackathons,
@@ -58,7 +59,8 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=255)
     bio = models.TextField(blank=True, null=True)
     avatar = models.ImageField(upload_to='profile/avatars', default='blank-profile-avatar.png')
-    background_profile_photo = models.ImageField(upload_to='profile/backgrounds', default='blank-profile-background.jpg')
+    background_profile_photo = models.ImageField(upload_to='profile/backgrounds',
+                                                 default='blank-profile-background.jpg')
     gender = models.IntegerField(default=None, null=True)
     date_of_birth = models.DateField(auto_now=True)
     website = models.CharField(max_length=255, blank=True, null=True)
@@ -94,7 +96,8 @@ class Profile(AbstractBaseUser, PermissionsMixin):
 
 
 class Project(models.Model):
-    user_id = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    projectname = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     team = models.TextField(blank=True, null=True)
@@ -106,7 +109,40 @@ class Project(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return self.projectname
+
+
+class Post(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    content = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='post', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.profile
+
+
+class Comment(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    content = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.profile
+
+
+class Like(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.profile
+
 
 '''
 class Post(models.Model):

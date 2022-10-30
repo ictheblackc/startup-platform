@@ -2,22 +2,28 @@ from django.urls import path
 
 from . import views
 
-appname = 'authentication'
+app_name = 'authentication'
 urlpatterns = [
     # ex: /
     # in progress... don't touch
     #path('', views.IndexView.as_view(), name='index'),
+
+    # pages
     path('', views.index, name='index'),
-    # path('settings', views.settings, name='settings'),
-    path('upload', views.upload, name='upload'),
-    # path('follow', views.follow, name='follow'),
-    # path('search', views.search, name='search'),
-    path('profile/<str:pk>', views.profile, name='profile'),
-    # path('like-post', views.like_post, name='like-post'),
-    # ex: /signup
+    path('profile/<str:username>', views.profile, name='profile'),
+    path('project/<str:projectname>', views.project, name='project'),
+
+    # actions
+    path('create-project', views.create_project, name='create_project'),
+    path('create-post', views.create_post, name='create_post'),
+
+    # authentication
     path('signup', views.signup, name='signup'),
-    # ex: /signin
     path('signin', views.signin, name='signin'),
-    # ex: /logout
     path('logout', views.logout, name='logout'),
 ]
+
+# path('settings', views.settings, name='settings'),
+# path('follow', views.follow, name='follow'),
+# path('search', views.search, name='search'),
+# path('like-post', views.like_post, name='like-post'),

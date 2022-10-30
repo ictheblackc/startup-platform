@@ -1,13 +1,11 @@
-import random
-from itertools import chain
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import auth
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
-from django.views import generic
 
-from .models import Profile, Project
+from .models import Profile, Project, Post
+
 
 # Create your views here.
 # in progress... don't touch
@@ -20,24 +18,32 @@ from .models import Profile, Project
 #         return Profile.objects
 
 
-@login_required(login_url='signin')
+@login_required(login_url='authentication:signin')
 @csrf_exempt
 def index(request):
     print("[=====================Index====================]")
-    profile = Profile.objects.get(username=request.user.username)
+    profile = request.user
 
-    # user suggestion starts
     all_other_profiles = Profile.objects.exclude(username=profile)
 
-    context = {'profile': profile, 'suggested_profiles': all_other_profiles}
+    all_posts = Post.objects.all()
+
+    my_projects = Project.objects.filter(profile=profile)
+
+    context = {
+        'profile': profile,
+        'suggested_profiles': all_other_profiles,
+        'suggested_posts': all_posts,
+        'my_projects': my_projects,
+    }
     print("[=====================Index====================]")
     return render(request, 'index.html', context)
 
 
 @csrf_exempt
-@login_required(login_url='signin')
-def profile(request, pk):
-    profile = Profile.objects.get(username=pk)
+@login_required(login_url='authentication:signin')
+def profile(request, username):
+    profile = Profile.objects.get(username=username)
 
     context = {
         'profile': profile,
@@ -46,23 +52,59 @@ def profile(request, pk):
 
 
 @csrf_exempt
-@login_required(login_url='signin')
-def upload(request):
+@login_required(login_url='authentication:signin')
+def project(request, projectname):
+    project = Project.objects.get(projectname=projectname)
+
+    context = {
+        'project': project,
+    }
+    return render(request, 'project.html', context)
+
+
+@csrf_exempt
+@login_required(login_url='authentication:signin')
+def create_project(request):
     if request.method == 'POST':
         user = request.user
+        projectname = request.POST['projectname']
         name = request.POST['name']
         description = request.POST['description']
         image = request.FILES.get('image')
 
-        if name:
-            new_post = Project.objects.create(user_id=user, name=name, description=description, image=image)
+        if projectname and Project.objects.filter(projectname=projectname).exists() is False:
+            new_post = Project.objects.create(profile=user, projectname=projectname, name=name, description=description, image=image)
             new_post.save()
-        else:
-            messages.info(request, 'Name Is Required')
+
+        # TODO: handle exception value
 
         return redirect('/')
     else:
         return redirect('/')
+
+
+@csrf_exempt
+@login_required(login_url='authentication:signin')
+def create_post(request):
+    if request.method == 'POST':
+        user = request.user
+        projectname = request.POST['projectname']
+        content = request.POST['content']
+        image = request.FILES.get('image')
+
+        if projectname:
+            selected_project = Project.objects.get(projectname=projectname)
+
+            if selected_project:
+                new_post = Post.objects.create(profile=user, project=selected_project, content=content, image=image)
+                new_post.save()
+
+        # TODO: handle exception value
+
+        return redirect('/')
+    else:
+        return redirect('/')
+
 
 '''
 @csrf_exempt
@@ -229,10 +271,10 @@ def signup(request):
         if password == password2:
             if Profile.objects.filter(email=email).exists():
                 messages.info(request, 'Email Taken')
-                return redirect('signup')
+                return redirect('authentication:signup')
             elif Profile.objects.filter(username=username).exists():
                 messages.info(request, 'Username Taken')
-                return redirect('signup')
+                return redirect('authentication:signup')
             else:
                 # Create Profile
                 profile = Profile.objects.create_user(username=username, email=email, password=password)
@@ -242,10 +284,10 @@ def signup(request):
                 user_login = auth.authenticate(username=username, password=password)
                 auth.login(request, user_login)
 
-                return redirect('index')
+                return redirect('authentication:index')
         else:
             messages.info(request, 'Password Not Matching')
-            return redirect('signup')
+            return redirect('authentication:signup')
 
     else:
         return render(request, 'authentication/signup.html')
@@ -261,17 +303,17 @@ def signin(request):
 
         if user is not None:
             auth.login(request, user)
-            return redirect('index')
+            return redirect('authentication:index')
         else:
             messages.info(request, 'Credentials Invalid')
-            return redirect('signin')
+            return redirect('authentication:signin')
 
     else:
         return render(request, 'authentication/signin.html')
 
 
 @csrf_exempt
-@login_required(login_url='signin')
+@login_required(login_url='authentication:signin')
 def logout(request):
     auth.logout(request)
-    return redirect('signin')
+    return redirect('authentication:signin')
