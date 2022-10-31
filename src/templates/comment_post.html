@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+{% load  tags %}
+
+{% block title %}
+    Startup Platform
+{% endblock %}
+
+
+{% block content %}
+    <div class="uk-container-xsmall m-auto" style="padding-top: 45px">
+        <div class="flex justify-center bg-white flex-col">
+
+            <div class="bg-white shadow -mx-2 lg:mx-0">
+                <div class="flex justify-between items-center px-4 py-3">
+                    <div class="flex flex-1 items-center">
+                        <a href="/profile/{{ post.profile }}">
+                            <img alt="" class="header-avatar" src="{{ profile.avatar.url }}" width="32"
+                                 height="32"
+                                 style="border-radius: 50%">
+                        </a>
+                        <span class="font-semibold block ml-2">
+                                <a href="/profile/{{ post.profile }}">@{{ post.profile }}</a>
+                            </span>
+                    </div>
+                    <div>
+                        <p class="font-bold text-black">
+                            <a href="/project/{{ post.project }}">{{ post.project }}</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div uk-lightbox>
+                    <a href="{% take_image_url post.image %}">
+                        <div class="flex justify-center">
+                            <img alt="" src="{% take_image_url post.image %}">
+                        </div>
+                    </a>
+                </div>
+
+                <div class="py-3 px-4 space-y-3">
+
+                    <p class="text-black" style="word-break: break-all">
+                        <a href="/profile/{{ post.profile }}"><strong>{{ post.profile }}</strong></a>
+                        {{ post.content }}
+                    </p>
+                </div>
+
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem">
+                <form action="/comment-post/{{ post }}" enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+
+                    <label for="content">Комментарий</label>
+                    <textarea class="mb-3 bg-gray-200" name="content" id="content"></textarea>
+
+                    <button class="button bg-blue-700" type="submit">Создать</button>
+                </form>
+            </div>
+
+            <div class="flex justify-center p-4">
+                <div class="flex flex-col justify-center items-center" style="width: 100%">
+                    {% for comment_of_post in comments_of_post %}
+                        <div class="flex flex-col border-bottom mb-3"
+                             style="border-bottom: 1px solid #666; width: 100%">
+
+                            <h4 class="font-bold text-black mb-2"
+                                    {% if comment_of_post.profile == profile %}
+                                style="text-align: end"
+                                    {% endif %}
+                            >{{ comment_of_post.profile }}</h4>
+
+                            <p
+                                {% if comment_of_post.profile == profile %}
+                                    style="text-align: end"
+                                {% endif %}
+                            >{{ comment_of_post.content }}</p>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

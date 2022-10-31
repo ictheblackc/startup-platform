@@ -1,10 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import auth
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Profile, Project, Post, Like
+from .models import Profile, Project, Post, Like, Comment
 
 
 # Create your views here.
@@ -68,7 +68,7 @@ def index(request):
 @csrf_exempt
 @login_required(login_url='authentication:signin')
 def profile(request, username):
-    profile = Profile.objects.get(username=username)
+    profile = get_object_or_404(Profile, username=username)
 
     context = {
         'profile': profile,
@@ -79,7 +79,7 @@ def profile(request, username):
 @csrf_exempt
 @login_required(login_url='authentication:signin')
 def project(request, projectname):
-    project = Project.objects.get(projectname=projectname)
+    project = get_object_or_404(Project, projectname=projectname)
 
     context = {
         'project': project,
@@ -153,6 +153,36 @@ def like_post(request):
     else:
         return redirect('/')
 
+
+@csrf_exempt
+@login_required(login_url='authentication:signin')
+def comment_post(request, post_id):
+
+    profile = request.user
+    post = get_object_or_404(Post, pk=post_id)
+
+    if request.method == 'POST':
+        content = request.POST['content']
+
+        if content:
+            comment_of_post = Comment.objects.create(profile=profile, post=post, content=content)
+            comment_of_post.save()
+
+        return redirect(f'/comment-post/{post_id}')
+
+    elif request.method == "GET":
+
+        comments_of_post = Comment.objects.filter(post=post)
+
+        context = {
+            'profile': profile,
+            'post': post,
+            'comments_of_post': comments_of_post,
+        }
+
+        return render(request, 'comment_post.html', context)
+    else:
+        return redirect('/')
 
 '''
 @csrf_exempt

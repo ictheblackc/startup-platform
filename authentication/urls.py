@@ -12,6 +12,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('profile/<str:username>', views.profile, name='profile'),
     path('project/<str:projectname>', views.project, name='project'),
+    path('comment-post/<str:post_id>', views.comment_post, name='comment_post'),
 
     # actions
     path('create-project', views.create_project, name='create_project'),
