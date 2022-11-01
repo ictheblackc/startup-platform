@@ -20,18 +20,12 @@
 
 <header>
     <div class="header_inner">
-        <form action="/search" method="POST">
-            {% csrf_token %}
-            <div class="left-side">
-                <div id="logo">
-                    <a href="/">
-                        <b><h1 style="text-transform: uppercase;">Startup Platform</h1></b>
-                    </a>
-                </div>
-                <input name="username" placeholder="Поиск по сайту.." type="text">
-                <button type="submit"><i class="fa fa-search fa-1x"></i></button>
-            </div>
-        </form>
+
+        <div id="logo" class="left-side">
+            <a href="/">
+                <b><h1 style="text-transform: uppercase;">Startup Platform</h1></b>
+            </a>
+        </div>
 
         <div class="right-side lg:pr-4">
 
@@ -48,7 +42,7 @@
                 </div>
                 <div class="flex justify-center flex-center text-center">
                     <div class="flex flex-col choose-upload text-center">
-                        <form action="create-project" enctype="multipart/form-data" method="POST">
+                        <form action="/create-project" enctype="multipart/form-data" method="POST">
                             {% csrf_token %}
 
                             <label for="projectname">Уникальное имя проекта</label>
@@ -116,7 +110,7 @@
                     </div>
                     <div class="flex justify-center flex-center text-center">
                         <div class="flex flex-col choose-upload text-center">
-                            <form action="create-post" enctype="multipart/form-data" method="POST">
+                            <form action="/create-post" enctype="multipart/form-data" method="POST">
                                 {% csrf_token %}
 
                                 <label for="projectname">Выберете проект: </label>
@@ -187,7 +181,7 @@
 </header>
 
 <div id="content">
-        {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
 </div>
 
 <!-- Scripts ================================================== -->

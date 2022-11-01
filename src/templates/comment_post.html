@@ -51,6 +51,8 @@
                 <form action="/comment-post/{{ post }}" enctype="multipart/form-data" method="POST">
                     {% csrf_token %}
 
+                    <input name="method" type="hidden" value="post">
+
                     <label for="content">Комментарий</label>
                     <textarea class="mb-3 bg-gray-200" name="content" id="content"></textarea>
 
@@ -61,21 +63,47 @@
             <div class="flex justify-center p-4">
                 <div class="flex flex-col justify-center items-center" style="width: 100%">
                     {% for comment_of_post in comments_of_post %}
-                        <div class="flex flex-col border-bottom mb-3"
-                             style="border-bottom: 1px solid #666; width: 100%">
+                        <div class="flex mb-3 justify-between"
+                             style="border-bottom: 1px solid #666; width: 100%;
+                                     {% if comment_of_post.profile == profile %}
+                                         flex-direction: row-reverse;
+                                     {% endif %}
+                                     ">
+                            <div class="">
+                                <h4 class="font-bold text-black mb-2" style="
+                                        {% if comment_of_post.profile == profile %}
+                                            text-align: end;
+                                        {% endif %}
+                                        ">{{ comment_of_post.profile }}</h4>
 
-                            <h4 class="font-bold text-black mb-2"
-                                    {% if comment_of_post.profile == profile %}
-                                style="text-align: end"
-                                    {% endif %}
-                            >{{ comment_of_post.profile }}</h4>
+                                <p style="word-break: break-all;
+                                        {% if comment_of_post.profile == profile %}
+                                            text-align: end;
+                                        {% endif %}
+                                        ">{{ comment_of_post.content }}</p>
+                            </div>
 
-                            <p
-                                {% if comment_of_post.profile == profile %}
-                                    style="text-align: end"
-                                {% endif %}
-                            >{{ comment_of_post.content }}</p>
+                            {% if is_editor or comment_of_post.profile == profile %}
+                                <div class="flex justify-center items-center" style="margin: 0 .75rem">
+                                    <form action="/comment-post/{{ post }}" enctype="multipart/form-data" method="post">
 
+                                        <input name="method" type="hidden" value="delete">
+
+                                        <input name="comment_id" type="hidden" value="{{ comment_of_post.pk }}">
+
+                                        <button type="submit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24"
+                                                 fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round"
+                                                 stroke-linejoin="round" class="feather feather-trash">
+                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </div>

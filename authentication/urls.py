@@ -13,6 +13,8 @@ urlpatterns = [
     path('profile/<str:username>', views.profile, name='profile'),
     path('project/<str:projectname>', views.project, name='project'),
     path('comment-post/<str:post_id>', views.comment_post, name='comment_post'),
+    path('profiles-list/', views.profiles_list, name='profiles_list'),
+    path('projects-list/', views.projects_list, name='projects_list'),
 
     # actions
     path('create-project', views.create_project, name='create_project'),

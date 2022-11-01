@@ -26,10 +26,15 @@ def index(request):
 
     all_other_profiles = Profile.objects.exclude(username=profile)
 
+    all_projects = Project.objects.all()
+
     all_posts = Post.objects.all()
 
     # TODO: suggest profiles
-    suggested_profiles = all_other_profiles
+    suggested_profiles = all_other_profiles[:3]
+
+    # TODO: suggest projects
+    suggested_projects = all_projects[:3]
 
     # TODO: suggest posts
     suggested_posts = all_posts
@@ -58,6 +63,7 @@ def index(request):
     context = {
         'profile': profile,
         'suggested_profiles': suggested_profiles,
+        'suggested_projects': suggested_projects,
         'suggested_posts_and_likes': suggested_posts_and_likes,
         'my_projects': my_projects,
     }
@@ -157,32 +163,90 @@ def like_post(request):
 @csrf_exempt
 @login_required(login_url='authentication:signin')
 def comment_post(request, post_id):
-
     profile = request.user
     post = get_object_or_404(Post, pk=post_id)
 
     if request.method == 'POST':
-        content = request.POST['content']
 
-        if content:
-            comment_of_post = Comment.objects.create(profile=profile, post=post, content=content)
-            comment_of_post.save()
+        if request.POST['method'] == 'post':
+            content = request.POST['content']
 
-        return redirect(f'/comment-post/{post_id}')
+            if content:
+                comment_of_post = Comment.objects.create(profile=profile, post=post, content=content)
+                comment_of_post.save()
+
+            return redirect(f'/comment-post/{post_id}')
+
+        elif request.POST['method'] == 'delete':
+            comment_id = request.POST['comment_id']
+
+            comment_of_post = get_object_or_404(Comment, pk=comment_id)
+
+            if comment_of_post.profile == profile or post.profile == profile:
+                comment_of_post.delete()
+
+            return redirect(f'/comment-post/{post_id}')
 
     elif request.method == "GET":
 
         comments_of_post = Comment.objects.filter(post=post)
 
+        is_editor = post.profile == profile
+
         context = {
             'profile': profile,
             'post': post,
             'comments_of_post': comments_of_post,
+            'is_editor': is_editor,
         }
 
         return render(request, 'comment_post.html', context)
+
     else:
         return redirect('/')
+
+
+@csrf_exempt
+@login_required(login_url='authentication:signin')
+def profiles_list(request):
+    profile = request.user
+
+    if request.method == "POST":
+        search = request.POST['search']
+        profiles = Profile.objects.filter(username__contains=search)
+
+    elif request.method == "GET":
+        profiles = Profile.objects.all()
+        search = ""
+
+    context = {
+        'profile': profile,
+        'profiles': profiles,
+        'search': search,
+    }
+    return render(request, 'profiles_list.html', context)
+
+
+@csrf_exempt
+@login_required(login_url='authentication:signin')
+def projects_list(request):
+    profile = request.user
+
+    if request.method == "POST":
+        search = request.POST['search']
+        projects = Project.objects.filter(projectname__contains=search)
+
+    elif request.method == "GET":
+        projects = Project.objects.all()
+        search = ""
+
+    context = {
+        'profile': profile,
+        'projects': projects,
+        'search': search,
+    }
+
+    return render(request, 'projects_list.html', context)
 
 '''
 @csrf_exempt

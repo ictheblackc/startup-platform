@@ -104,7 +104,7 @@ class Project(models.Model):
     website = models.CharField(max_length=255)
     revenue = models.IntegerField(default=None, null=True)
     stage = models.IntegerField(default=None, null=True)
-    image = models.ImageField(upload_to='project', blank=True, null=True)
+    image = models.ImageField(upload_to='project', default='blank-project-image.png')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
