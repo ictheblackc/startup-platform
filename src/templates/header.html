@@ -1,0 +1,161 @@
+<header>
+    <div class="header_inner">
+
+        <div id="logo" class="left-side">
+            <a href="/">
+                <b><h1 style="text-transform: uppercase;">Startup Platform</h1></b>
+            </a>
+        </div>
+
+        <div class="right-side lg:pr-4">
+
+            <!-- Create project -->
+            <a class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white"
+               href="#">
+                Создать проект
+            </a>
+
+            <div class="header_dropdown"
+                 uk-dropdown="pos: top-right;mode:click ; animation: uk-animation-slide-bottom-small">
+                <div class="px-4 py-3 -mx-5 -mt-4 mb-5 border-b">
+                    <h4>Создать проект</h4>
+                </div>
+                <div class="flex justify-center flex-center text-center">
+                    <div class="flex flex-col choose-upload text-center">
+                        <form action="/create-project" enctype="multipart/form-data" method="POST">
+                            {% csrf_token %}
+
+                            <label for="projectname">Уникальное имя проекта</label>
+                            <input class="mb-3 bg-gray-200" type="text" name="projectname" id="projectname">
+
+                            <label for="name">Имя</label>
+                            <input class="mb-3 bg-gray-200" type="text" name="name" id="name">
+
+                            <label for="description">Описание</label>
+                            <textarea class="mb-3 bg-gray-200" name="description" id="description"></textarea>
+
+                            <label for="image">Загрузить фото</label>
+                            <input class="bg-gray-200 mb-3" name="image" type="file" id="image">
+
+                            <button class="button bg-blue-700" type="submit">Создать</button>
+                        </form>
+                    </div>
+
+                    <div class="uk-flex uk-flex-column choose-upload" hidden>
+                        <div class="mx-auto flex flex-col h-24 items-center justify-center relative w-full rounded-lg">
+                            <svg class="w-12" fill="currentColor" viewBox="0 0 20 20"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path clip-rule="evenodd"
+                                      d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z"
+                                      fill-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="my-3 leading-6"> Import videos from YouTube <br> Copy / Paste your video link here
+                        </p>
+                        <form class="uk-grid-small" uk-grid>
+                            <div class="uk-width-expand">
+                                <input class="uk-input uk-form-small  bg-gray-200 " placeholder="Paste link"
+                                       style="box-shadow:none"
+                                       type="text">
+                            </div>
+                            <div class="uk-width-auto">
+                                <button class="button soft-warning -ml-2" type="submit">
+                                    Import
+                                </button>
+                            </div>
+                        </form>
+                        <a class="uk-text-muted mt-3 uk-link" href="#"
+                           uk-toggle="target: .choose-upload ; animation: uk-animation-slide-left-small, uk-animation-slide-right-medium; queued: true">
+                            Or Upload Video </a>
+                    </div>
+                </div>
+                <div class="px-4 py-3 -mx-5 -mb-4 mt-5 border-t text-sm">
+                    Your Image size Must be Maxmium 999MB
+                </div>
+            </div>
+
+
+            <!-- Create post -->
+            {% if my_projects %}
+                <a class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white"
+                   href="#">
+                    Создать Пост
+                </a>
+
+
+                <div class="header_dropdown"
+                     uk-dropdown="pos: top-right;mode:click ; animation: uk-animation-slide-bottom-small">
+                    <div class="px-4 py-3 -mx-5 -mt-4 mb-5 border-b">
+                        <h4>Создать Пост</h4>
+                    </div>
+                    <div class="flex justify-center flex-center text-center">
+                        <div class="flex flex-col choose-upload text-center">
+                            <form action="/create-post" enctype="multipart/form-data" method="POST">
+                                {% csrf_token %}
+
+                                <label for="projectname">Выберете проект: </label>
+                                <select class="mb-3 bg-gray-200" name="projectname" id="projectname">
+                                    {% for project in my_projects %}
+                                        <option value="{{ project }}">{{ project }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <label for="content">Cодержание</label>
+                                <textarea class="mb-3 bg-gray-200" name="content" id="content"></textarea>
+
+                                <label for="image">Загрузить фото</label>
+                                <input class="mb-3 bg-gray-200" name="image" type="file" id="image">
+
+                                <button class="button bg-blue-700" type="submit">Создать</button>
+                            </form>
+                        </div>
+
+                        <div class="uk-flex uk-flex-column choose-upload" hidden>
+                            <div class="mx-auto flex flex-col h-24 items-center justify-center relative w-full rounded-lg">
+                                <svg class="w-12" fill="currentColor" viewBox="0 0 20 20"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path clip-rule="evenodd"
+                                          d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z"
+                                          fill-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <p class="my-3 leading-6"> Import videos from YouTube <br> Copy / Paste your video link here
+                            </p>
+                            <form class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand">
+                                    <input class="uk-input uk-form-small  bg-gray-200 " placeholder="Paste link"
+                                           style="box-shadow:none"
+                                           type="text">
+                                </div>
+                                <div class="uk-width-auto">
+                                    <button class="button soft-warning -ml-2" type="submit">
+                                        Import
+                                    </button>
+                                </div>
+                            </form>
+                            <a class="uk-text-muted mt-3 uk-link" href="#"
+                               uk-toggle="target: .choose-upload ; animation: uk-animation-slide-left-small, uk-animation-slide-right-medium; queued: true">
+                                Or Upload Video </a>
+                        </div>
+                    </div>
+                    <div class="px-4 py-3 -mx-5 -mb-4 mt-5 border-t text-sm">
+                        Your Image size Must be Maxmium 999MB
+                    </div>
+                </div>
+            {% endif %}
+
+
+            <a href="#">
+                <img alt="" class="header-avatar" src="{{ profile.avatar.url }}">
+            </a>
+            <div class="header_dropdown profile_dropdown border-t" uk-drop="mode: click;offset:9">
+                <ul>
+                    <li><a href="/profile/{{ profile }}">Your Profile</a></li>
+                    <li><a href="/settings"> Account setting </a></li>
+                    <li><a href="/logout"> Log Out</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</header>
