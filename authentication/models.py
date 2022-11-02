@@ -98,13 +98,13 @@ class Profile(AbstractBaseUser, PermissionsMixin):
 class Project(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     projectname = models.CharField(max_length=255, unique=True)
+    image = models.ImageField(upload_to='project', default='blank-project-image.jpg', null=False, blank=False)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     team = models.TextField(blank=True, null=True)
     website = models.CharField(max_length=255)
     revenue = models.IntegerField(default=None, null=True)
     stage = models.IntegerField(default=None, null=True)
-    image = models.ImageField(upload_to='project', default='blank-project-image.png')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -22,11 +22,11 @@ from .models import Profile, Project, Post, Like, Comment
 @csrf_exempt
 def index(request):
     print("[=====================Index====================]")
-    profile = request.user
+    current_profile = request.user
 
-    all_other_profiles = Profile.objects.exclude(username=profile)
+    all_other_profiles = Profile.objects.exclude(username=current_profile)
 
-    all_projects = Project.objects.all()
+    all_other_projects = Project.objects.exclude(profile=current_profile)
 
     all_posts = Post.objects.all()
 
@@ -34,7 +34,7 @@ def index(request):
     suggested_profiles = all_other_profiles[:3]
 
     # TODO: suggest projects
-    suggested_projects = all_projects[:3]
+    suggested_projects = all_other_projects[:3]
 
     # TODO: suggest posts
     suggested_posts = all_posts
@@ -43,14 +43,14 @@ def index(request):
     suggested_posts_and_likes = []
     for suggested_post in suggested_posts:
 
-        project_likes = Like.objects.filter(post=suggested_post).values("profile")
+        post_likes = Like.objects.filter(post=suggested_post).values("profile")
 
         amount_of_likes = 0
         is_profile_like = False
 
-        if project_likes:
-            amount_of_likes = project_likes.count()
-            is_profile_like = project_likes.filter(profile=profile).exists()
+        if post_likes:
+            amount_of_likes = post_likes.count()
+            is_profile_like = post_likes.filter(profile=current_profile).exists()
 
         suggested_posts_and_likes.append({
             'post': suggested_post,
@@ -58,10 +58,10 @@ def index(request):
             'is_profile_like': is_profile_like,
         })
 
-    my_projects = Project.objects.filter(profile=profile)
+    my_projects = Project.objects.filter(profile=current_profile)
 
     context = {
-        'profile': profile,
+        'current_profile': current_profile,
         'suggested_profiles': suggested_profiles,
         'suggested_projects': suggested_projects,
         'suggested_posts_and_likes': suggested_posts_and_likes,
@@ -74,10 +74,46 @@ def index(request):
 @csrf_exempt
 @login_required(login_url='authentication:signin')
 def profile(request, username):
+    current_profile = request.user
     profile = get_object_or_404(Profile, username=username)
 
+    projects_of_profile = Project.objects.filter(profile=profile)
+    posts_of_profile = Post.objects.filter(profile=profile)
+
+    # Like
+    posts_and_likes_of_profile = []
+    for post in posts_of_profile:
+
+        post_likes = Like.objects.filter(post=post).values("profile")
+
+        amount_of_likes = 0
+        is_profile_like = False
+
+        if post_likes:
+            amount_of_likes = post_likes.count()
+            is_profile_like = post_likes.filter(profile=current_profile).exists()
+
+        posts_and_likes_of_profile.append({
+            'post': post,
+            'amount_of_likes': amount_of_likes,
+            'is_profile_like': is_profile_like,
+        })
+
+    is_follow = False
+
+    quantities = {
+        'posts': posts_of_profile.count(),
+        'projects': projects_of_profile.count(),
+        'followers': 0,
+    }
+
     context = {
+        'current_profile': current_profile,
         'profile': profile,
+        'projects_of_profile': projects_of_profile,
+        'posts_and_likes_of_profile': posts_and_likes_of_profile,
+        'is_follow': is_follow,
+        'quantities': quantities,
     }
     return render(request, 'profile.html', context)
 
@@ -85,9 +121,11 @@ def profile(request, username):
 @csrf_exempt
 @login_required(login_url='authentication:signin')
 def project(request, projectname):
+    current_profile = request.user
     project = get_object_or_404(Project, projectname=projectname)
 
     context = {
+        'current_profile': current_profile,
         'project': project,
     }
     return render(request, 'project.html', context)
@@ -97,14 +135,17 @@ def project(request, projectname):
 @login_required(login_url='authentication:signin')
 def create_project(request):
     if request.method == 'POST':
-        profile = request.user
+        current_profile = request.user
         projectname = request.POST['projectname']
         name = request.POST['name']
         description = request.POST['description']
         image = request.FILES.get('image')
 
+        if image is None:
+            image = "blank-project-image.jpg"
+
         if projectname and Project.objects.filter(projectname=projectname).exists() is False:
-            new_project = Project.objects.create(profile=profile, projectname=projectname, name=name,
+            new_project = Project.objects.create(profile=current_profile, projectname=projectname, name=name,
                                                  description=description, image=image)
             new_project.save()
 
@@ -119,7 +160,7 @@ def create_project(request):
 @login_required(login_url='authentication:signin')
 def create_post(request):
     if request.method == 'POST':
-        profile = request.user
+        current_profile = request.user
         projectname = request.POST['projectname']
         content = request.POST['content']
         image = request.FILES.get('image')
@@ -128,7 +169,8 @@ def create_post(request):
             selected_project = Project.objects.get(projectname=projectname)
 
             if selected_project:
-                new_post = Post.objects.create(profile=profile, project=selected_project, content=content, image=image)
+                new_post = Post.objects.create(profile=current_profile, project=selected_project, content=content,
+                                               image=image)
                 new_post.save()
 
         # TODO: handle exception value
@@ -142,17 +184,17 @@ def create_post(request):
 @login_required(login_url='authentication:signin')
 def like_post(request):
     if request.method == 'POST':
-        profile = request.user
+        current_profile = request.user
         post_id = request.POST['post_id']
 
         if post_id:
             selected_post = Post.objects.get(pk=post_id)
             if selected_post:
-                like = Like.objects.filter(profile=profile, post_id=post_id)
+                like = Like.objects.filter(profile=current_profile, post_id=post_id)
                 if like.exists():
                     like.delete()
                 else:
-                    new_like = Like.objects.create(profile=profile, post=selected_post)
+                    new_like = Like.objects.create(profile=current_profile, post=selected_post)
                     new_like.save()
 
         return redirect('/')
@@ -163,7 +205,7 @@ def like_post(request):
 @csrf_exempt
 @login_required(login_url='authentication:signin')
 def comment_post(request, post_id):
-    profile = request.user
+    current_profile = request.user
     post = get_object_or_404(Post, pk=post_id)
 
     if request.method == 'POST':
@@ -172,7 +214,7 @@ def comment_post(request, post_id):
             content = request.POST['content']
 
             if content:
-                comment_of_post = Comment.objects.create(profile=profile, post=post, content=content)
+                comment_of_post = Comment.objects.create(profile=current_profile, post=post, content=content)
                 comment_of_post.save()
 
             return redirect(f'/comment-post/{post_id}')
@@ -182,7 +224,7 @@ def comment_post(request, post_id):
 
             comment_of_post = get_object_or_404(Comment, pk=comment_id)
 
-            if comment_of_post.profile == profile or post.profile == profile:
+            if comment_of_post.profile == current_profile or post.profile == current_profile:
                 comment_of_post.delete()
 
             return redirect(f'/comment-post/{post_id}')
@@ -191,10 +233,10 @@ def comment_post(request, post_id):
 
         comments_of_post = Comment.objects.filter(post=post)
 
-        is_editor = post.profile == profile
+        is_editor = post.profile == current_profile
 
         context = {
-            'profile': profile,
+            'current_profile': current_profile,
             'post': post,
             'comments_of_post': comments_of_post,
             'is_editor': is_editor,
@@ -209,7 +251,7 @@ def comment_post(request, post_id):
 @csrf_exempt
 @login_required(login_url='authentication:signin')
 def profiles_list(request):
-    profile = request.user
+    current_profile = request.user
 
     if request.method == "POST":
         search = request.POST['search']
@@ -220,7 +262,7 @@ def profiles_list(request):
         search = ""
 
     context = {
-        'profile': profile,
+        'current_profile': current_profile,
         'profiles': profiles,
         'search': search,
     }
@@ -230,7 +272,7 @@ def profiles_list(request):
 @csrf_exempt
 @login_required(login_url='authentication:signin')
 def projects_list(request):
-    profile = request.user
+    current_profile = request.user
 
     if request.method == "POST":
         search = request.POST['search']
@@ -241,12 +283,13 @@ def projects_list(request):
         search = ""
 
     context = {
-        'profile': profile,
+        'current_profile': current_profile,
         'projects': projects,
         'search': search,
     }
 
     return render(request, 'projects_list.html', context)
+
 
 '''
 @csrf_exempt

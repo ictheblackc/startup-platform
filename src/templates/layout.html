@@ -15,6 +15,8 @@
     <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
     <link href="{% static 'assets/css/tailwind.css' %}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    {% block head %}{% endblock %}
 </head>
 <body>
 
@@ -166,11 +168,11 @@
 
 
             <a href="#">
-                <img alt="" class="header-avatar" src="{{ profile.avatar.url }}">
+                <img alt="" class="header-avatar" src="{{ current_profile.avatar.url }}">
             </a>
             <div class="header_dropdown profile_dropdown border-t" uk-drop="mode: click;offset:9">
                 <ul>
-                    <li><a href="/profile/{{ profile }}">Your Profile</a></li>
+                    <li><a href="/profile/{{ current_profile }}">Your Profile</a></li>
                     <li><a href="/settings"> Account setting </a></li>
                     <li><a href="/logout"> Log Out</a></li>
                 </ul>

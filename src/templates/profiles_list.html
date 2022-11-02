@@ -26,21 +26,21 @@
             <div class="p-3 flex flex-col items-center">
                 {% if profiles %}
 
-                    {% for profile_of_list in profiles %}
-                        <a href="/profile/{{ profile_of_list }}" class="mb-5" style="width: 100%;">
+                    {% for profile in profiles %}
+                        <a href="/profile/{{ profile }}" class="mb-5" style="width: 100%;">
                             <div class="flex justify-between py-1"
                                  style="width: 100%; border-bottom: 1px solid rgba(66,66,66,.5)">
 
                                 <div class="flex justify-center">
                                     <img alt="" style="border-radius: 50%; width: 48px; height: 48px"
-                                         src="{% take_image_url profile_of_list.avatar %}">
+                                         src="{% take_image_url profile.avatar %}">
                                 </div>
 
                                 <div>
 
-                                    <h4 style="text-align: end" class="font-bold">{{ profile_of_list }}</h4>
+                                    <h4 style="text-align: end" class="font-bold">{{ profile }}</h4>
 
-                                    <p style="text-align: end">{{ profile_of_list.name }}</p>
+                                    <p style="text-align: end">{{ profile.name }}</p>
                                 </div>
 
                             </div>
