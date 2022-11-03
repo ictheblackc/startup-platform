@@ -1,13 +1,69 @@
 {% extends 'layout.html' %}
 {% load static %}
 
-<div class="theme-layout"></div>
-<h1>Project {{ project }}</h1>
-
-<!-- Scripts ================================================== -->
-<script data-cfasync="false" src="{% static '../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js' %}"></script>
-<script src="{% static 'js/main.min.js' %}"></script>
-<script src="{% static 'js/script.js' %}"></script>
-
-</body>
-</html>
+{% block content %}
+    <div class="uk-container-xsmall m-auto" style="padding-top: 45px">
+        <div class="flex justify-center bg-white flex-col">
+            <div class="bg-white shadow -mx-2 lg:mx-0">
+                <div class="flex justify-between items-center px-4 py-3">
+                    <div class="flex flex-1 items-center">
+                        <a href="/profile/{{ post.profile }}">
+                            <img alt="" class="header-avatar" src="{{ profile.avatar.url }}" width="32"
+                                 height="32"
+                                 style="border-radius: 50%">
+                        </a>
+                        <span class="font-semibold block ml-2">
+                                <a href="/profile/{{ post.profile }}">@{{ post.profile }}</a>
+                            </span>
+                    </div>
+                    <div>
+                        <p class="font-bold text-black">
+                            <a href="/project/{{ post.project }}">{{ post.project }}</a>
+                        </p>
+                    </div>
+                </div>
+                <div uk-lightbox>
+                    <a href="">
+                        <div class="flex justify-center">
+                            <img alt="" src="">
+                        </div>
+                    </a>
+                </div>
+                <div class="py-3 px-4 space-y-3">
+                    <p class="text-black" style="word-break: break-all">
+                        <a href="/profile/{{ post.profile }}"><strong>{{ post.profile }}</strong></a>
+                        {{ post.content }}
+                    </p>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; padding: 1rem">
+                <div class="flex mb-3 justify-between"
+                     style="border-bottom: 1px solid #666; width: 100%">
+                    <div class="">
+                        <p style="word-break: break-all">Название проекта: {{ project.name }}</p>
+                    </div>
+                </div>
+                <div class="flex mb-3 justify-between"
+                     style="border-bottom: 1px solid #666; width: 100%">
+                    <div class="">
+                        <p style="word-break: break-all">Описание проекта: {{ project.description }}</p>
+                    </div>
+                </div>
+                <div class="flex mb-3 justify-between"
+                     style="border-bottom: 1px solid #666; width: 100%">
+                    {% if project.team %}
+                    <div class="">
+                        <p style="word-break: break-all">Команда: {{ project.team }}</p>
+                    {% else %}
+                        <p style="word-break: break-all">Без команды</p>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center p-4">
+                <div class="flex flex-col justify-center items-center" style="width: 100%">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
