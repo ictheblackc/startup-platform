@@ -15,6 +15,7 @@ urlpatterns = [
     path('comment-post/<str:post_id>', views.comment_post, name='comment_post'),
     path('profiles-list/', views.profiles_list, name='profiles_list'),
     path('projects-list/', views.projects_list, name='projects_list'),
+    path('profile-settings/', views.profile_settings, name='profile_settings'),
 
     # actions
     path('create-project', views.create_project, name='create_project'),

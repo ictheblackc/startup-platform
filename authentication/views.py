@@ -291,6 +291,28 @@ def projects_list(request):
     return render(request, 'projects_list.html', context)
 
 
+
+@csrf_exempt
+@login_required(login_url='authentication:signin')
+def profile_settings(request):
+    current_profile = request.user
+
+    if request.method == "POST":
+        search = request.POST['search']
+        projects = Project.objects.filter(projectname__contains=search)
+
+    elif request.method == "GET":
+        projects = Project.objects.all()
+        search = ""
+
+    context = {
+        'current_profile': current_profile,
+    }
+
+    return render(request, 'profile_settings.html', context)
+
+
+
 '''
 @csrf_exempt
 @login_required(login_url='signin')
@@ -440,7 +462,7 @@ def settings(request):
             user_profile.save()
 
         return redirect('index')
-    return render(request, 'setting.html', {'user_profile': user_profile})
+    return render(request, 'profile_settings.html', {'user_profile': user_profile})
 
 '''
 

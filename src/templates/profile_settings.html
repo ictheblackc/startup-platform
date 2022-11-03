@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% load  tags %}
+{% load static %}
+
+
+{% block title %}
+    Settings
+{% endblock %}
+
+{% block content %}
+
+    <div class="container m-auto">
+        <div class="bg-white rounded-md lg:shadow-lg shadow col-span-2">
+
+            <form action="" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">
+                    <div class="col-span-2">
+                        <label for=""> Profile Image</label>
+                        <img height="100" src="{{ current_profile.avatar.url }}" width="100"/>
+                        <input class="shadow-none bg-gray-100" name="image" type="file" value="">
+                    </div>
+                    <div class="col-span-2">
+                        <label for="about">Bio</label>
+                        <textarea class="shadow-none bg-gray-100" id="about" name="bio"
+                                  rows="3">{{ current_profile.bio }}</textarea>
+                    </div>
+                    <div class="col-span-2">
+                        <label for=""> Location</label>
+                        <input class="shadow-none bg-gray-100" name="location" type="text"
+                               value="{{ current_profile.location }}">
+                    </div>
+
+                </div>
+                <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
+                    <button class="p-2 px-4 rounded bg-gray-50 text-red-500"><a href="/static">Cancel</a></button>
+                    <button class="button bg-blue-700" type="submit"> Save</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Scripts ================================================== -->
+    <script src="{% static 'assets/js/tippy.all.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/uikit.js' %}"></script>
+    <script src="{% static 'assets/js/simplebar.js' %}"></script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+    <script src="{% static '../../unpkg.com/ionicons%405.2.3/dist/ionicons.js' %}"></script>
+{% endblock %}

@@ -179,9 +179,9 @@
             </a>
             <div class="header_dropdown profile_dropdown border-t" uk-drop="mode: click;offset:9">
                 <ul>
-                    <li><a href="/profile/{{ current_profile }}">Your Profile</a></li>
-                    <li><a href="/settings"> Account setting </a></li>
-                    <li><a href="/logout"> Log Out</a></li>
+                    <li><a href="/profile/{{ current_profile }}">Профиль</a></li>
+                    <li><a href="/profile-settings">Настройки</a></li>
+                    <li><a href="/logout">Выход</a></li>
                 </ul>
             </div>
 
@@ -220,7 +220,7 @@
                 </div>
 
                 {% if profile == current_profile %}
-                    <a data-ripple="" href="/settings">Настройки</a>
+                    <a data-ripple="" href="/profile-settings">Настройки</a>
                 {% else %}
 
                     {% if is_follow %}
