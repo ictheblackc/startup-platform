@@ -143,6 +143,10 @@ class Like(models.Model):
     def __str__(self):
         return str(self.post)
 
+class Followers(models.Model):
+    follower = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 '''
 class Post(models.Model):
