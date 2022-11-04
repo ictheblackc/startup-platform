@@ -16,14 +16,27 @@
 </head>
 <body class="bg-gray-100">
 
-{% include 'header.html' %}
+<header>
+    <div class="header_inner">
+
+        <div id="logo" class="left-side">
+            <a href="/">
+                <b><h1 style="text-transform: uppercase;">Startup Platform</h1></b>
+            </a>
+        </div>
+
+        <div class="right-side lg:pr-4">
+
+            {% block button %}{% endblock %}
+
+        </div>
+    </div>
+</header>
 
 <div class="flex flex-col justify-between h-screen" id="wrapper">
-
     <div>
         <div class="lg:p-12 max-w-md max-w-xl lg:my-0 my-12 mx-auto p-6 space-y-">
-            <h1 class="lg:text-3xl text-xl font-semibold  mb-6"> Вход</h1>
-
+            <h1 class="lg:text-3xl text-xl font-semibold  mb-6">{% block h1 %}{% endblock %}</h1>
             <div>
                 <style>
                     h5 {
@@ -49,8 +62,9 @@
             <p class="capitalize"> © Copyright 2022 by Startup Platform</p>
         </div>
     </div>
-
 </div>
+
+{% include 'footer.html' %}
 
 <!-- Scripts ================================================== -->
 <script src="{% static 'assets/js/tippy.all.min.js' %}"></script>

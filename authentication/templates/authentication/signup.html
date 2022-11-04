@@ -1,7 +1,16 @@
 {% extends 'authentication/layout.html' %}
 
 {% block title %}
-Signin
+    Регистрация
+{% endblock %}
+
+{% block button %}
+    <a class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white"
+       href="/signin">Вход</a>
+{% endblock %}
+
+{% block h1 %}
+    Регистрация
 {% endblock %}
 
 {% block form %}

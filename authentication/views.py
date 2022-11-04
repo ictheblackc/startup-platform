@@ -512,7 +512,7 @@ def signin(request):
             auth.login(request, user)
             return redirect('authentication:index')
         else:
-            messages.info(request, 'Credentials Invalid')
+            messages.info(request, 'Неверные данные')
             return redirect('authentication:signin')
 
     else:

@@ -1,24 +1,33 @@
 {% extends 'authentication/layout.html' %}
 
 {% block title %}
-Signin
+    Вход
+{% endblock %}
+
+{% block button %}
+    <a class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white"
+       href="/signup">Регистрация</a>
+{% endblock %}
+
+{% block h1 %}
+    Вход
 {% endblock %}
 
 {% block form %}
-<form action="" method="POST">
-    {% csrf_token %}
-    <input class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" name="username" placeholder="Имя пользователя"
-           style="border: 1px solid #d3d5d8 !important;"
-           type="text">
-    <input class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" name="password" placeholder="Пароль"
-           style="border: 1px solid #d3d5d8 !important;"
-           type="password">
-    <button class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full"
-            type="submit">
-        Войти
-    </button>
-    <div class="text-center mt-5 space-x-2">
-        <p class="text-base"> Еще нет аккаунта? <a class="" href="/signup"> Создать аккаунт </a></p>
-    </div>
-</form>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" name="username" placeholder="Имя пользователя"
+               style="border: 1px solid #d3d5d8 !important;"
+               type="text">
+        <input class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" name="password" placeholder="Пароль"
+               style="border: 1px solid #d3d5d8 !important;"
+               type="password">
+        <button class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full"
+                type="submit">
+            Войти
+        </button>
+        <div class="text-center mt-5 space-x-2">
+            <p class="text-base"> Еще нет аккаунта? <a class="" href="/signup"> Создать аккаунт </a></p>
+        </div>
+    </form>
 {% endblock %}
