@@ -40,22 +40,66 @@
                 <div class="flex mb-3 justify-between"
                      style="border-bottom: 1px solid #666; width: 100%">
                     <div class="">
-                        <p style="word-break: break-all">Название проекта: {{ project.name }}</p>
+                        <p style="word-break: break-all"><b>Название проекта:</b> {{ project.name }}</p>
                     </div>
                 </div>
                 <div class="flex mb-3 justify-between"
                      style="border-bottom: 1px solid #666; width: 100%">
                     <div class="">
-                        <p style="word-break: break-all">Описание проекта: {{ project.description }}</p>
-                    </div>
-                </div>
-                <div class="flex mb-3 justify-between"
-                     style="border-bottom: 1px solid #666; width: 100%">
-                    {% if project.team %}
-                    <div class="">
-                        <p style="word-break: break-all">Команда: {{ project.team }}</p>
+                    {% if project.description %}
+                        <p style="word-break: break-all"><b>Описание:</b> {{ project.description }}</p>
                     {% else %}
-                        <p style="word-break: break-all">Без команды</p>
+                        <p style="word-break: break-all"><b>Описание:</b> информация отсутствует</p>
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="flex mb-3 justify-between"
+                     style="border-bottom: 1px solid #666; width: 100%">
+                    <div class="">
+                    {% if project.profile_id %}
+                        <p style="word-break: break-all"><b>Автор:</b> {{ project.profile_id }}</p>
+                    {% else %}
+                        <p style="word-break: break-all"><b>Автор:</b> информация отсутствует</p>
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="flex mb-3 justify-between"
+                     style="border-bottom: 1px solid #666; width: 100%">
+                    <div class="">
+                    {% if project.team %}
+                        <p style="word-break: break-all"><b>Команда:</b> {{ project.team }}</p>
+                    {% else %}
+                        <p style="word-break: break-all"><b>Команда:</b> информация отсутствует</p>
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="flex mb-3 justify-between"
+                     style="border-bottom: 1px solid #666; width: 100%">
+                    <div class="">
+                    {% if project.website %}
+                        <p style="word-break: break-all"><b>Сайт:</b> {{ project.website }}</p>
+                    {% else %}
+                        <p style="word-break: break-all"><b>Сайт:</b> информация отсутствует</p>
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="flex mb-3 justify-between"
+                     style="border-bottom: 1px solid #666; width: 100%">
+                    <div class="">
+                    {% if project.stage %}
+                        <p style="word-break: break-all"><b>Стадия:</b> {{ project.stage }}</p>
+                    {% else %}
+                        <p style="word-break: break-all"><b>Стадия:</b> информация отсутствует</p>
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="flex mb-3 justify-between"
+                     style="border-bottom: 1px solid #666; width: 100%">
+                    <div class="">
+                    {% if project.created_at %}
+                        <p style="word-break: break-all"><b>Дата создания:</b> {{ project.created_at }}</p>
+                    {% else %}
+                        <p style="word-break: break-all"><b>Дата создания:</b> информация отсутствует</p>
                     {% endif %}
                     </div>
                 </div>
