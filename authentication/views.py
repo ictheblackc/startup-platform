@@ -166,7 +166,7 @@ def create_post(request):
         image = request.FILES.get('image')
 
         if projectname:
-            selected_project = Project.objects.get(projectname=projectname)
+            selected_project = get_object_or_404(Project, projectname=projectname)
 
             if selected_project:
                 new_post = Post.objects.create(profile=current_profile, project=selected_project, content=content,
@@ -188,7 +188,7 @@ def like_post(request):
         post_id = request.POST['post_id']
 
         if post_id:
-            selected_post = Post.objects.get(pk=post_id)
+            selected_post = get_object_or_404(Post, pk=post_id)
             if selected_post:
                 like = Like.objects.filter(profile=current_profile, post_id=post_id)
                 if like.exists():
@@ -293,20 +293,71 @@ def projects_list(request):
 
 
 @csrf_exempt
-@login_required(login_url='authentication:signin')
+@login_required(login_url='authenticatcountry_idion:signin')
 def profile_settings(request):
     current_profile = request.user
 
+    profile = get_object_or_404(Profile, username=current_profile)
+
     if request.method == "POST":
-        search = request.POST['search']
-        projects = Project.objects.filter(projectname__contains=search)
+        name = request.POST['name']
+        phone = request.POST['phone']
+        avatar = request.FILES.get('avatar')
+        background_profile_photo = request.FILES.get('background_profile_photo')
+        bio = request.POST['bio']
+        gender = request.POST['gender']
+        date_of_birth = request.POST['date_of_birth']
+        website = request.POST['website']
+        country_id = request.POST['country_id']
+        city_id = request.POST['city_id']
+        citizenship = request.POST['citizenship']
+        tin = request.POST['tin']
+        address = request.POST['address']
+        university = request.POST['university']
+        speciality = request.POST['speciality']
+        ending_year = request.POST['ending_year']
+        employment_id = request.POST['employment_id']
+        skills = request.POST['skills']
+        work_experience = request.POST['work_experience']
+        achievements = request.POST['achievements']
+        hackathons = request.POST['hackathons']
+
+        profile.name = name
+        profile.phone = phone
+
+        if avatar is not None:
+            profile.avatar = avatar
+
+        if background_profile_photo is not None:
+            profile.background_profile_photo = background_profile_photo
+
+        profile.bio = bio
+        profile.date_of_birth = date_of_birth
+        profile.website = website
+        profile.citizenship = citizenship
+        profile.address = address
+        profile.university = university
+        profile.speciality = speciality
+        profile.ending_year = ending_year
+        profile.skills = skills
+        profile.achievements = achievements
+
+        # profile.work_experience = work_experience
+        # profile.hackathons = hackathons
+        # profile.gender = gender
+        # profile.tin = tin
+        # profile.employment_id = employment_id
+        # profile.country_id = country_id
+        # profile.city_id = city_id
+
+        profile.save()
 
     elif request.method == "GET":
-        projects = Project.objects.all()
-        search = ""
+        pass
 
     context = {
         'current_profile': current_profile,
+        'profile': profile,
     }
 
     return render(request, 'profile_settings.html', context)

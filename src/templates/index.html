@@ -16,7 +16,7 @@
                                 <a href="/profile/{{ suggested_post_and_likes.post.profile }}">
                                     <img alt="" class="header-avatar" src="{{ suggested_post_and_likes.post.profile.avatar.url }}" width="32"
                                          height="32"
-                                         style="border-radius: 50%">
+                                         style="border-radius: 50%; height: 32px">
                                 </a>
                                 <span class="font-semibold block ml-2">
                                     <a href="/profile/{{ suggested_post_and_likes.post.profile }}">@{{ suggested_post_and_likes.post.profile }}</a>
@@ -134,7 +134,7 @@
                                 <div class="flex flex-1 items-center space-x-4">
                                     <a href="/profile/{{ suggested_profile }}">
                                         <img class="bg-gray-200 rounded-full w-10 h-10"
-                                             src="{{ suggested_profile.avatar.url }}">
+                                             src="{{ suggested_profile.avatar.url }}" style="height: 40px; width: 40px">
                                     </a>
                                     <div class="flex flex-col">
                                         <span class="block capitalize font-semibold"> {{ suggested_profile }} </span>
@@ -178,7 +178,7 @@
                                 <div class="flex flex-1 items-center space-x-4">
                                     <a href="/project/{{ suggested_project }}">
                                         <img class="bg-gray-200 rounded-full w-10 h-10"
-                                             src="{% take_image_url suggested_project.image %}">
+                                             src="{% take_image_url suggested_project.image %}" style="height: 40px; width: 40px">
                                     </a>
                                     <div class="flex flex-col">
                                         <span class="block capitalize font-semibold"> {{ suggested_project }} </span>

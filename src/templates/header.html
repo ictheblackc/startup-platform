@@ -146,12 +146,12 @@
 
 
             <a href="#">
-                <img alt="" class="header-avatar" src="{{ current_profile.avatar.url }}">
+                <img alt="" class="header-avatar" src="{{ current_profile.avatar.url }}" style="height: 32px; width: 32px">
             </a>
             <div class="header_dropdown profile_dropdown border-t" uk-drop="mode: click;offset:9">
                 <ul>
                     <li><a href="/profile/{{ current_profile }}">Профиль</a></li>
-                    <li><a href="/settings">Настройки</a></li>
+                    <li><a href="/profile-settings">Настройки</a></li>
                     <li><a href="/logout">Выход</a></li>
                 </ul>
             </div>
