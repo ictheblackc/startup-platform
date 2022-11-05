@@ -21,7 +21,6 @@ from .models import Profile, Project, Post, Like, Comment
 @login_required(login_url='authentication:signin')
 @csrf_exempt
 def index(request):
-    print("[=====================Index====================]")
     current_profile = request.user
 
     all_other_profiles = Profile.objects.exclude(username=current_profile)
@@ -67,7 +66,6 @@ def index(request):
         'suggested_posts_and_likes': suggested_posts_and_likes,
         'my_projects': my_projects,
     }
-    print("[=====================Index====================]")
     return render(request, 'index.html', context)
 
 
@@ -544,7 +542,7 @@ def signup(request):
 
                 return redirect('authentication:index')
         else:
-            messages.info(request, 'Password Not Matching')
+            messages.info(request, 'Пароли не совпадают')
             return redirect('authentication:signup')
 
     else:

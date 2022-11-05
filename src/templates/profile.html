@@ -11,10 +11,6 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link href="{% static 'css/color.css' %}" rel="stylesheet">
     <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
-
-
-
-
     <link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
     <link href="{% static 'assets/css/uikit.css' %}" rel="stylesheet">
     <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
@@ -28,8 +24,7 @@
 
 
 {% block content %}
-
-    <section>
+    <section style="margin-top: 100px;">
         <div class="feature-photo">
             <figure><img alt="" src="{{ profile.background_profile_photo.url }}"></figure>
             {% csrf_token %}
@@ -255,10 +250,7 @@
             </div>
         </div>
     </section>
-
 {% endblock %}
-
-
 
 {% block script %}
     <script data-cfasync="false"
