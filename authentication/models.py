@@ -72,7 +72,7 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     university = models.CharField(max_length=255, blank=True, null=True)
     speciality = models.CharField(max_length=255, blank=True, null=True)
     ending_year = models.DateField(auto_now=True)
-    employment_id = models.CharField(max_length=255)
+    employment_id = models.CharField(max_length=255, blank=True, null=True)
     skills = models.TextField(blank=True, null=True)
     work_experience = models.IntegerField(default=None, null=True)
     achievements = models.TextField(blank=True, null=True)
