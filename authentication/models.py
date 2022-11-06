@@ -144,8 +144,8 @@ class Like(models.Model):
         return str(self.post)
 
 class Followers(models.Model):
-    follower = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='follower')
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='user')
+    follower = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
 
 '''
