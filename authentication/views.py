@@ -7,17 +7,6 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Profile, Project, Post, Like, Comment, Followers, Teammates
 
 
-# Create your views here.
-# in progress... don't touch
-# class IndexView(generic.IndexView):
-#     template_name = 'authentication/index.html'
-#     context_object_name = 'profile'
-#
-#     def get_profile(self):
-#         """Return """
-#         return Profile.objects
-
-
 @login_required(login_url='authentication:signin')
 @csrf_exempt
 def index(request):
@@ -80,7 +69,7 @@ def profile(request, username):
 
     projects_of_profile = Project.objects.filter(profile=profile)
     posts_of_profile = Post.objects.filter(profile=profile)
-    followers_of_profile = Followers.objects.filter(user=profile)
+    followers_of_profile = Followers.objects.filter(profile=profile)
 
     # Like
     posts_and_likes_of_profile = []
@@ -101,7 +90,7 @@ def profile(request, username):
             'is_profile_like': is_profile_like,
         })
 
-    is_follow = Followers.objects.filter(user=profile, follower=current_profile).exists() if True else False
+    is_follow = Followers.objects.filter(profile=profile, follower=current_profile).exists() if True else False
 
     quantities = {
         'posts': posts_of_profile.count(),
