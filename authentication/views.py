@@ -391,7 +391,7 @@ def join(request, projectname):
             teammate = get_object_or_404(Teammates, project=project, teammate=current_profile)
             teammate.delete()
 
-    return redirect(f'/profile/{projectname}')
+    return redirect(f'/join/{projectname}')
 
 
 

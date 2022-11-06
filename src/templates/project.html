@@ -34,7 +34,7 @@
                 {% else %}
 
                     {% if is_follow %}
-                        <form action="/follow/{{ profile }}" method="post" enctype="multipart/form-data">
+                        <form action="/join/{{ project }}/" method="post" enctype="multipart/form-data">
                             <input name="method" type="hidden" value="delete"/>
 
                             <button style="background-color: #ffc0cb; border: #ffc0cb; font-size: 16px" type="submit">
@@ -42,7 +42,7 @@
                             </button>
                         </form>
                     {% else %}
-                        <form action="/follow/{{ profile }}" method="post" enctype="multipart/form-data">
+                        <form action="/join/{{ project }}/" method="post" enctype="multipart/form-data">
                             <input name="method" type="hidden" value="post"/>
 
                             <button style="background-color: #ffc0cb; border: #ffc0cb; font-size: 16px" type="submit">
