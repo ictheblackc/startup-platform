@@ -23,7 +23,7 @@
                     <input class="mb-3 bg-gray-200" type="text" name="phone" id="phone" value="{{ profile.phone }}">
 
                     <label for="bio">Описание</label>
-                    <textarea class="mb-3 bg-gray-200" name="bio" id="bio">{% if profile.bio %} {{profile.bio}} {% endif %}</textarea>
+                    <textarea class="mb-3 bg-gray-200" name="bio" id="bio">{% if profile.bio %}{{profile.bio}}{% endif %}</textarea>
 
                     <label for="avatar">Аватар</label>
                     <img class="mb-3" src="{{ profile.avatar.url }}" width="100" height="100"/>
@@ -36,17 +36,17 @@
 
                     <label for="gender">Пол</label>
                     <select class="mb-3 bg-gray-200" name="gender" id="gender" value="{{ profile.gender }}">
-                        <option value="1">Мужской</option>
-                        <option value="0">Женский</option>
+                        <option value="1" {% if  profile.gender == "1"%} selected {% endif %}>Мужской</option>
+                        <option value="0" {% if  profile.gender == "0"%} selected {% endif %}>Женский</option>
                     </select>
 
                     <label for="date_of_birth">Дата рождения</label>
                     <input class="mb-3 bg-gray-200" type="date" name="date_of_birth" id="date_of_birth"
-                           value="{{ profile.date_of_birth }}">
+                           value="{% if profile.date_of_birth %}{{profile.date_of_birth}}{% endif %}">
 
                     <label for="website">Сайт</label>
                     <input class="mb-3 bg-gray-200" type="text" name="website" id="website"
-                           value="{{ profile.website }}">
+                           value="{% if profile.website != None %}{{profile.website}}{% endif %}">
 
                     <label for="country_id">Страна</label>
                     <select class="mb-3 bg-gray-200" name="country_id" id="country_id" value="{{ profile.country_id }}">
@@ -62,22 +62,22 @@
 
                     <label for="citizenship">Гражданство</label>
                     <input class="mb-3 bg-gray-200" type="text" name="citizenship" id="citizenship"
-                           value="{{ profile.citizenship }}">
+                           value="{% if profile.citizenship != None %}{{profile.citizenship}}{% endif %}">
 
                     <label for="tin">ИНН</label>
-                    <input class="mb-3 bg-gray-200" type="text" name="tin" id="tin" value="{{ profile.tin }}">
+                    <input class="mb-3 bg-gray-200" type="text" name="tin" id="tin" value="{% if profile.tin != None %}{{ profile.tin }}{% endif %}">
 
                     <label for="address">Адресс</label>
                     <input class="mb-3 bg-gray-200" type="text" name="address" id="address"
-                           value="{{ profile.address }}">
+                           value="{% if profile.address != None %}{{ profile.address }}{% endif %}">
 
                     <label for="university">Университет</label>
                     <input class="mb-3 bg-gray-200" type="text" name="university" id="university"
-                           value="{{ profile.university }}">
+                           value="{% if profile.university != None %}{{ profile.university }}{% endif %}">
 
                     <label for="speciality">Специальность</label>
                     <input class="mb-3 bg-gray-200" type="text" name="speciality" id="speciality"
-                           value="{{ profile.speciality }}">
+                           value="{% if profile.speciality != None %}{{ profile.speciality }}{% endif %}">
 
                     <label for="ending_year">Год окончания</label>
                     <input class="mb-3 bg-gray-200" type="date" name="ending_year" id="ending_year"
@@ -92,7 +92,7 @@
                     </select>
 
                     <label for="skills">Навыки</label>
-                    <textarea class="mb-3 bg-gray-200" name="skills" id="skills">{{ profile.skills }}</textarea>
+                    <textarea class="mb-3 bg-gray-200" name="skills" id="skills">{% if profile.skills != None %}{{ profile.skills }}{% endif %}</textarea>
 
                     <label for="work_experience">Опыт работы</label>
                     <input class="mb-3 bg-gray-200" type="number" name="work_experience" id="work_experience"
@@ -100,43 +100,15 @@
 
                     <label for="achievements">Достижения</label>
                     <textarea class="mb-3 bg-gray-200" name="achievements"
-                              id="achievements">{{ profile.achievements }}</textarea>
+                              id="achievements">{% if profile.achievements != None %}{{ profile.achievements }}{% endif %}</textarea>
 
-                    <label for="hackathons">Хакатоны</label>
+                    <label for="hackathons">Количество хакатонов</label>
                     <input class="mb-3 bg-gray-200" type="number" name="hackathons" id="hackathons"
                            value="{{ profile.hackathons }}">
 
 
                     <button class="button bg-blue-700 mt-3" type="submit">Сохранить</button>
                 </div>
-
-
-                {#                <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">#}
-                {##}
-                {#                     #}
-                {##}
-                {#                    <div class="col-span-2">#}
-                {#                        <label for=""> Profile Image</label>#}
-                {#                        <img src="{{ current_profile.avatar.url }}" width="100" height="100"/>#}
-                {#                        <input class="shadow-none bg-gray-100" name="image" type="file" value="">#}
-                {#                    </div>#}
-                {##}
-                {#                    <div class="col-span-2">#}
-                {#                        <label for="about">Bio</label>#}
-                {#                        <textarea class="shadow-none bg-gray-100" id="about" name="bio"#}
-                {#                                  rows="3">{{ current_profile.bio }}</textarea>#}
-                {#                    </div>#}
-                {##}
-                {#                    <div class="col-span-2">#}
-                {#                        <label for=""> Location</label>#}
-                {#                        <input class="shadow-none bg-gray-100" name="location" type="text"#}
-                {#                               value="{{ current_profile.location }}">#}
-                {#                    </div>#}
-                {##}
-                {#                </div>#}
-                {#                <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">#}
-                {#                    <button class="button bg-blue-700" type="submit"> Save</button>#}
-                {#                </div>#}
             </form>
         </div>
 

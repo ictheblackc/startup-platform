@@ -112,3 +112,8 @@ GitHub.sublime-settings
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
+
+# Media
+src/media/post/*
+src/media/profile/*
+src/media/project/*

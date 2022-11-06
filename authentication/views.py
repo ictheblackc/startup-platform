@@ -169,9 +169,8 @@ def create_post(request):
 
         # TODO: handle exception value
 
-        return redirect('/')
-    else:
-        return redirect('/')
+
+    return redirect('/')
 
 
 @csrf_exempt
@@ -324,6 +323,7 @@ def profile_settings(request):
         if background_profile_photo is not None:
             profile.background_profile_photo = background_profile_photo
 
+        print(date_of_birth)
         profile.gender = gender
         profile.bio = bio
         profile.date_of_birth = date_of_birth
@@ -335,11 +335,10 @@ def profile_settings(request):
         profile.ending_year = ending_year
         profile.skills = skills
         profile.achievements = achievements
+        profile.tin = tin
+        profile.work_experience = int(work_experience)
+        profile.hackathons = int(hackathons)
 
-        # profile.work_experience = work_experience
-        # profile.hackathons = hackathons
-
-        # profile.tin = tin
         # profile.employment_id = employment_id
         # profile.country_id = country_id
         # profile.city_id = city_id
