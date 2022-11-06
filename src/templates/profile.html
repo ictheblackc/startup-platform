@@ -56,8 +56,8 @@
                 {% else %}
 
                     {% if is_follow %}
-                        <form action="/follow" method="post" enctype="multipart/form-data">
-                            <input name="profile" type="hidden" value="{{ profile }}"/>
+                        <form action="/follow/{{ profile }}" method="post" enctype="multipart/form-data">
+                            <input name="method" type="hidden" value="delete"/>
 
                             <button style="background-color: #ffc0cb; border: #ffc0cb; font-size: 16px" type="submit">
                                 Отписаться
@@ -65,7 +65,7 @@
                         </form>
                     {% else %}
                         <form action="/follow/{{ profile }}" method="post" enctype="multipart/form-data">
-                            <input name="profile" type="hidden" value="{{ profile }}"/>
+                            <input name="method" type="hidden" value="post"/>
 
                             <button style="background-color: #ffc0cb; border: #ffc0cb; font-size: 16px" type="submit">
                                 Подписаться
