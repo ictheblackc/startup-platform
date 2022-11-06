@@ -22,6 +22,7 @@ urlpatterns = [
     path('create-post', views.create_post, name='create_post'),
     path('like-post', views.like_post, name='like_post'),
     path('follow/<str:username>', views.follow, name='follow'),
+    path('join/<str:projectname>', views.join, name='join'),
 
     # authentication
     path('signup', views.signup, name='signup'),

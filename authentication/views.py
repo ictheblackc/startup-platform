@@ -4,7 +4,7 @@ from django.contrib.auth.models import auth
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Profile, Project, Post, Like, Comment
+from .models import Profile, Project, Post, Like, Comment, Followers, Teammates
 
 
 # Create your views here.
@@ -80,6 +80,7 @@ def profile(request, username):
 
     projects_of_profile = Project.objects.filter(profile=profile)
     posts_of_profile = Post.objects.filter(profile=profile)
+    followers_of_profile = Followers.objects.filter(user=profile)
 
     # Like
     posts_and_likes_of_profile = []
@@ -100,12 +101,12 @@ def profile(request, username):
             'is_profile_like': is_profile_like,
         })
 
-    is_follow = False
+    is_follow = Followers.objects.filter(user=profile, follower=current_profile).exists() if True else False
 
     quantities = {
         'posts': posts_of_profile.count(),
         'projects': projects_of_profile.count(),
-        'followers': 0,
+        'followers': followers_of_profile.count(),
     }
 
     context = {
@@ -368,9 +369,40 @@ def profile_settings(request):
 @login_required(login_url='authentication:signin')
 def follow(request, username):
     if request.method == 'POST':
-        pass
+
+        current_profile = request.user
+        profile = get_object_or_404(Profile, username=username)
+
+        method = request.POST['method']
+
+        if method == "post":
+            follower = Followers.objects.create(profile=profile, follower=current_profile)
+            follower.save()
+        elif method == "delete":
+            follower = get_object_or_404(Followers, profile=profile, follower=current_profile)
+            follower.delete()
 
     return redirect(f'/profile/{username}')
+
+
+@csrf_exempt
+@login_required(login_url='authentication:signin')
+def join(request, projectname):
+    if request.method == 'POST':
+
+        current_profile = request.user
+        project = get_object_or_404(Project, projectname=projectname)
+
+        method = request.POST['method']
+
+        if method == "post":
+            teammate = Teammates.objects.create(project=project, teammate=current_profile)
+            teammate.save()
+        elif method == "delete":
+            teammate = get_object_or_404(Teammates, project=project, teammate=current_profile)
+            teammate.delete()
+
+    return redirect(f'/profile/{projectname}')
 
 
 
