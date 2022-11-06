@@ -347,7 +347,6 @@ def profile_settings(request):
     elif request.method == "GET":
         pass
 
-    print(profile.bio)
     context = {
         'current_profile': current_profile,
         'profile': profile,
