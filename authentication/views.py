@@ -4,7 +4,7 @@ from django.contrib.auth.models import auth
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Profile, Project, Post, Like, Comment, Followers
+from .models import Profile, Project, Post, Like, Comment, Followers, Teammates
 
 
 # Create your views here.
@@ -376,13 +376,33 @@ def follow(request, username):
         method = request.POST['method']
 
         if method == "post":
-            follow = Followers.objects.create(user=profile, follower=current_profile)
-            follow.save()
+            follower = Followers.objects.create(profile=profile, follower=current_profile)
+            follower.save()
         elif method == "delete":
-            follow = get_object_or_404(Followers, user=profile, follower=current_profile)
-            follow.delete()
+            follower = get_object_or_404(Followers, profile=profile, follower=current_profile)
+            follower.delete()
 
     return redirect(f'/profile/{username}')
+
+
+@csrf_exempt
+@login_required(login_url='authentication:signin')
+def join(request, projectname):
+    if request.method == 'POST':
+
+        current_profile = request.user
+        project = get_object_or_404(Project, projectname=projectname)
+
+        method = request.POST['method']
+
+        if method == "post":
+            teammate = Teammates.objects.create(project=project, teammate=current_profile)
+            teammate.save()
+        elif method == "delete":
+            teammate = get_object_or_404(Teammates, project=project, teammate=current_profile)
+            teammate.delete()
+
+    return redirect(f'/profile/{projectname}')
 
 
 

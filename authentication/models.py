@@ -143,10 +143,23 @@ class Like(models.Model):
     def __str__(self):
         return str(self.post)
 
+
 class Followers(models.Model):
     follower = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='follower')
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='user')
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='profile')
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.profile)
+
+
+class Teammates(models.Model):
+    teammate = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='teammate')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.project)
 
 '''
 class Post(models.Model):
