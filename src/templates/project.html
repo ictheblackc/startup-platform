@@ -33,8 +33,8 @@
                     <a data-ripple="" href="/profile-settings">Настройки</a>
                 {% else %}
 
-                    {% if is_follow %}
-                        <form action="/join/{{ project }}/" method="post" enctype="multipart/form-data">
+                    {% if is_teammate %}
+                        <form action="/join/{{ project }}" method="post" enctype="multipart/form-data">
                             <input name="method" type="hidden" value="delete"/>
 
                             <button style="background-color: #ffc0cb; border: #ffc0cb; font-size: 16px" type="submit">

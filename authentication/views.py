@@ -115,9 +115,12 @@ def project(request, projectname):
     current_profile = request.user
     project = get_object_or_404(Project, projectname=projectname)
 
+    is_teammate = Teammates.objects.filter(project=project, teammate=current_profile).exists() if True else False
+
     context = {
         'current_profile': current_profile,
         'project': project,
+        'is_teammate': is_teammate,
     }
     return render(request, 'project.html', context)
 
@@ -282,7 +285,6 @@ def projects_list(request):
     return render(request, 'projects_list.html', context)
 
 
-
 @csrf_exempt
 @login_required(login_url='authentication:signin')
 def profile_settings(request):
@@ -365,10 +367,11 @@ def follow(request, username):
 
         method = request.POST['method']
 
-        if method == "post":
+        if method == "post" and Followers.objects.filter(profile=profile, follower=current_profile).exists() is False:
             follower = Followers.objects.create(profile=profile, follower=current_profile)
             follower.save()
-        elif method == "delete":
+        elif method == "delete" and Followers.objects.filter(profile=profile,
+                                                             follower=current_profile).exists() is True:
             follower = get_object_or_404(Followers, profile=profile, follower=current_profile)
             follower.delete()
 
@@ -385,15 +388,15 @@ def join(request, projectname):
 
         method = request.POST['method']
 
-        if method == "post":
+        if method == "post" and Teammates.objects.filter(project=project, teammate=current_profile).exists() is False:
             teammate = Teammates.objects.create(project=project, teammate=current_profile)
             teammate.save()
-        elif method == "delete":
+        elif method == "delete" and Teammates.objects.filter(project=project,
+                                                             teammate=current_profile).exists() is True:
             teammate = get_object_or_404(Teammates, project=project, teammate=current_profile)
             teammate.delete()
 
     return redirect(f'/project/{projectname}')
-
 
 
 @csrf_exempt
