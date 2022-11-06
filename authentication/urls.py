@@ -21,13 +21,10 @@ urlpatterns = [
     path('create-project', views.create_project, name='create_project'),
     path('create-post', views.create_post, name='create_post'),
     path('like-post', views.like_post, name='like_post'),
+    path('follow/<str:username>', views.follow, name='follow'),
 
     # authentication
     path('signup', views.signup, name='signup'),
     path('signin', views.signin, name='signin'),
     path('logout', views.logout, name='logout'),
 ]
-
-# path('settings', views.settings, name='settings'),
-# path('follow', views.follow, name='follow'),
-# path('search', views.search, name='search'),

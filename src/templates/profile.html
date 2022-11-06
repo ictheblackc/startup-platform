@@ -64,7 +64,7 @@
                             </button>
                         </form>
                     {% else %}
-                        <form action="/follow" method="post" enctype="multipart/form-data">
+                        <form action="/follow/{{ profile }}" method="post" enctype="multipart/form-data">
                             <input name="profile" type="hidden" value="{{ profile }}"/>
 
                             <button style="background-color: #ffc0cb; border: #ffc0cb; font-size: 16px" type="submit">

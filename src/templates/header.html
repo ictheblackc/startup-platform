@@ -9,6 +9,8 @@
 
         <div class="right-side lg:pr-4">
 
+        {% if is_index_page %}
+
             <!-- Create project -->
             <a class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white"
                href="#">
@@ -143,7 +145,7 @@
                     </div>
                 </div>
             {% endif %}
-
+{% endif %}
 
             <a href="#">
                 <img alt="" class="header-avatar" src="{{ current_profile.avatar.url }}" style="height: 32px; width: 32px">
