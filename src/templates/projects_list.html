@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+{% load  tags %}
+
+{% block title %}
+    Startup Platform
+{% endblock %}
+
+{% block content %}
+    <div class="uk-container-xsmall m-auto" style="padding-top: 45px">
+        <div class="flex justify-center bg-white flex-col">
+
+            <div class="p-3" style="border-bottom: 1px solid #666; ">
+                <form action="/projects-list/" method="POST">
+                    {% csrf_token %}
+                    <div class="flex">
+                        <input name="search" placeholder="Поиск по проектам..." type="text" value="{{ search }}">
+
+                        <button type="submit" class="ml-2"><i class="fa fa-search fa-1x"></i></button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="p-3 flex flex-col items-center">
+                {% if projects %}
+
+                    {% for project in projects %}
+                        <a href="/project/{{ project }}" class="mb-5" style="width: 100%;">
+                            <div class="flex justify-between py-1"
+                                 style="width: 100%; border-bottom: 1px solid rgba(66,66,66,.5)">
+
+                                <div class="flex justify-center">
+                                    <img alt="" style="border-radius: 50%; width: 48px; height: 48px"
+                                         src="{% take_image_url project.image %}">
+                                </div>
+
+                                <div>
+
+                                    <h4 style="text-align: end" class="font-bold">{{ project }}</h4>
+
+                                    <p style="text-align: end">{{ project.name }}</p>
+                                </div>
+
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    Проекты не найдены
+                {% endif %}
+            </div>
+
+
+        </div>
+    </div>
+{% endblock %}

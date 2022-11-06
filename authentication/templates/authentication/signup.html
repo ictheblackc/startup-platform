@@ -1,0 +1,39 @@
+{% extends 'authentication/layout.html' %}
+
+{% block title %}
+    Регистрация
+{% endblock %}
+
+{% block button %}
+    <a class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white"
+       href="/signin">Вход</a>
+{% endblock %}
+
+{% block h1 %}
+    Регистрация
+{% endblock %}
+
+{% block form %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <input class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" name="username" placeholder="Имя пользователя"
+           style="border: 1px solid #d3d5d8 !important;"
+           type="text">
+    <input class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" name="email" placeholder="Email"
+           style="border: 1px solid #d3d5d8 !important;"
+           type="email">
+    <input class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" name="password" placeholder="Пароль"
+           style="border: 1px solid #d3d5d8 !important;"
+           type="password">
+    <input class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" name="password2" placeholder="Подтвердите пароль"
+           style="border: 1px solid #d3d5d8 !important;"
+           type="password">
+    <button class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full"
+            type="submit">
+        Зарегистрироваться
+    </button>
+    <div class="text-center mt-5 space-x-2">
+        <p class="text-base">Уже есть аккаунт? <a href="/signin"> Войти</a></p>
+    </div>
+</form>
+{% endblock %}
