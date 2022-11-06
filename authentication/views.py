@@ -322,6 +322,7 @@ def profile_settings(request):
         if background_profile_photo is not None:
             profile.background_profile_photo = background_profile_photo
 
+        profile.gender = gender
         profile.bio = bio
         profile.date_of_birth = date_of_birth
         profile.website = website
@@ -335,7 +336,7 @@ def profile_settings(request):
 
         # profile.work_experience = work_experience
         # profile.hackathons = hackathons
-        # profile.gender = gender
+
         # profile.tin = tin
         # profile.employment_id = employment_id
         # profile.country_id = country_id
@@ -346,6 +347,7 @@ def profile_settings(request):
     elif request.method == "GET":
         pass
 
+    print(profile.bio)
     context = {
         'current_profile': current_profile,
         'profile': profile,
@@ -391,7 +393,7 @@ def join(request, projectname):
             teammate = get_object_or_404(Teammates, project=project, teammate=current_profile)
             teammate.delete()
 
-    return redirect(f'/profile/{projectname}')
+    return redirect(f'/project/{projectname}')
 
 
 

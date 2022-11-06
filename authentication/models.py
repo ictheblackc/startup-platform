@@ -58,10 +58,10 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     bio = models.TextField(blank=True, null=True)
-    avatar = models.ImageField(upload_to='profile/avatars', default='blank-profile-avatar.png')
+    avatar = models.ImageField(upload_to='profile/avatars', default='blank-profile-avatar.jpg')
     background_profile_photo = models.ImageField(upload_to='profile/backgrounds',
                                                  default='blank-profile-background.jpg')
-    gender = models.CharField(max_length=255, blank=True, null=True)
+    gender = models.CharField(max_length=255, default=1)
     date_of_birth = models.DateField(auto_now=True)
     website = models.CharField(max_length=255, blank=True, null=True)
     country_id = models.IntegerField(default=None, null=True)
